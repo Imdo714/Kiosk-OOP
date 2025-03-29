@@ -2,6 +2,7 @@ package kiosk.global.exception;
 
 import kiosk.api.ApiResponse;
 import kiosk.api.menu.exception.MenuNotFoundException;
+import kiosk.global.exception.handleException.InvalidEntityException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -18,7 +19,12 @@ public class GlobalException {
     // 없는 메뉴 예외
     @ExceptionHandler(MenuNotFoundException.class)
     public ApiResponse<Object> handleMenuNotFoundException(MenuNotFoundException e) {
+        return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+    }
 
+    // OrderEntity 업데이터 검증
+    @ExceptionHandler(InvalidEntityException.class)
+    public ApiResponse<Object> handleInvalidOrderException(InvalidEntityException e) {
         return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
     }
 

@@ -1,8 +1,6 @@
 package kiosk.api.menu.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kiosk.api.menu.domain.MenuEntity;
 import kiosk.api.menu.domain.request.MenuCreateRequest;
 import kiosk.api.menu.domain.request.MenuUpdate;
 import kiosk.api.menu.domain.response.MenuResponse;
@@ -14,12 +12,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.PatchMapping;
 
 import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
 import static kiosk.api.menu.domain.MenuStatus.SELLING;
 import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -84,12 +82,12 @@ class MenuControllerTest {
 
     @DisplayName("메뉴 가격 상태값 수정 결과 값")
     @Test
-    void updateMenu() {
+    void updateMenu() throws Exception {
         // given
         Long menuId = 1L;
         MenuUpdate menuUpdate = MenuUpdate.builder()
-                .menuPrice(2000)
-                .menuStatus(STOP_SELLING)
+                .menuPrice(1000)
+                .menuStatus(SELLING)
                 .build();
 
         MenuResponse expectedResponse = MenuResponse.builder()
@@ -103,7 +101,12 @@ class MenuControllerTest {
         when(menuService.updateMenu(menuId, menuUpdate)).thenReturn(expectedResponse);
 
         // when & then
-     
+        mockMvc.perform(patch("/menu/{menuId}", menuId)
+                .content(objectMapper.writeValueAsString(menuUpdate))
+                .contentType(MediaType.APPLICATION_JSON)
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
     }
 
 }

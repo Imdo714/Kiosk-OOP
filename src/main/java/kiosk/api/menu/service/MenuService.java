@@ -28,18 +28,29 @@ public class MenuService {
 
     @Transactional
     public MenuResponse updateMenu(Long menuId, MenuUpdate request) {
-        MenuEntity menu = menuRepository.findById(menuId)
-                .orElseThrow(() -> new MenuNotFoundException("메뉴를 찾을 수 없습니다."));
+        MenuEntity menu = getMenuEntity(menuId);
 
-        if (request.hasPrice()) {
-            menu.updateMenuPrice(request.getMenuPrice());
-        }
+        updatePriceIfExists(request, menu);
+        updateMenuStatusIfExists(request, menu);
 
+        return MenuResponse.of(menu);
+    }
+
+    private void updateMenuStatusIfExists(MenuUpdate request, MenuEntity menu) {
         if (request.hasStatus()) {
             menu.updateMenuStatus(request.getMenuStatus());
         }
+    }
 
-        return MenuResponse.of(menu);
+    private void updatePriceIfExists(MenuUpdate request, MenuEntity menu) {
+        if (request.hasPrice()) {
+            menu.updateMenuPrice(request.getMenuPrice());
+        }
+    }
+
+    private MenuEntity getMenuEntity(Long menuId) {
+        return menuRepository.findById(menuId)
+                .orElseThrow(() -> new MenuNotFoundException("메뉴를 찾을 수 없습니다."));
     }
 
 }

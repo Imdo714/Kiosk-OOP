@@ -1,6 +1,7 @@
 package kiosk.api.menu.domain;
 
 import jakarta.persistence.*;
+import kiosk.global.exception.handleException.InvalidEntityException;
 import lombok.*;
 
 @AllArgsConstructor
@@ -34,13 +35,13 @@ public class MenuEntity {
     public void updateMenuPrice(Integer newPrice) {
         if (newPrice != null && newPrice > 0) {
             this.menuPrice = newPrice;
-        }
+        } throw new InvalidEntityException("가격이 0이거나 없습니다.");
     }
 
     public void updateMenuStatus(MenuStatus newStatus) {
         if (newStatus != null) {
             this.menuStatus = newStatus;
-        }
+        } throw new InvalidEntityException("상태값은 필수입니다.");
     }
 
 }

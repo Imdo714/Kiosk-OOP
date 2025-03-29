@@ -2,14 +2,14 @@ package kiosk.api.order.domain;
 
 import jakarta.persistence.*;
 import kiosk.api.menu.domain.MenuEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
+import kiosk.global.exception.handleException.InvalidEntityException;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 @Entity
 public class OrderEntity {
@@ -31,5 +31,21 @@ public class OrderEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
     private MenuEntity menuEntity;
+
+    public void updateOrderPrice(int price){
+        validPositiveValue(price, "가격은 0보다 커야 합니다.");
+        this.orderPrice = price;
+    }
+
+    public void updateOrderQuantity(int quantity){
+        validPositiveValue(quantity, "수량은 0보다 커야 합니다.");
+        this.orderQuantity = quantity;
+    }
+
+    private void validPositiveValue(int value, String message) {
+        if (value <= 0) {
+            throw new InvalidEntityException(message);
+        }
+    }
 
 }

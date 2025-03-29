@@ -5,9 +5,11 @@ import kiosk.api.menu.domain.MenuEntity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
 @Builder
 @Entity
 public class OrderDetailEntity {
