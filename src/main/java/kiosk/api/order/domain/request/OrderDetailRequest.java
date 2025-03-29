@@ -1,14 +1,12 @@
 package kiosk.api.order.domain.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @ToString
 @Getter
-@Builder
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class OrderDetailRequest {
 
     private Long menuId; // 메뉴 ID

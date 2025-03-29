@@ -1,5 +1,6 @@
 package kiosk.global.exception;
 
+import jakarta.servlet.http.HttpServletResponse;
 import kiosk.api.ApiResponse;
 import kiosk.api.menu.exception.MenuNotFoundException;
 import kiosk.global.exception.handleException.InvalidEntityException;
@@ -18,19 +19,21 @@ public class GlobalException {
 
     // 없는 메뉴 예외
     @ExceptionHandler(MenuNotFoundException.class)
-    public ApiResponse<Object> handleMenuNotFoundException(MenuNotFoundException e) {
+    public ApiResponse<Object> handleMenuNotFoundException(MenuNotFoundException e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
     }
 
     // OrderEntity 업데이터 검증
     @ExceptionHandler(InvalidEntityException.class)
-    public ApiResponse<Object> handleInvalidOrderException(InvalidEntityException e) {
+    public ApiResponse<Object> handleInvalidOrderException(InvalidEntityException e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
         return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
     }
 
     // Valid 예외
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ApiResponse<Object> handleValidationExceptions(MethodArgumentNotValidException e) {
+    public ApiResponse<Object> handleValidationExceptions(MethodArgumentNotValidException e, HttpServletResponse response) {
 
         String errorMessage = e.getBindingResult()
                 .getFieldErrors()
@@ -39,6 +42,8 @@ public class GlobalException {
                 .findFirst()
                 .map(FieldError::getDefaultMessage)
                 .orElse("잘못된 요청입니다.");
+
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
 
         return ApiResponse.of(HttpStatus.BAD_REQUEST, errorMessage, null);
     }

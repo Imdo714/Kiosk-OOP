@@ -8,7 +8,6 @@ import lombok.*;
 @NoArgsConstructor
 @Builder
 @Getter
-@Setter
 @ToString
 @Entity
 public class MenuEntity {
@@ -33,15 +32,15 @@ public class MenuEntity {
     private MenuStatus menuStatus;
 
     public void updateMenuPrice(Integer newPrice) {
-        if (newPrice != null && newPrice > 0) {
-            this.menuPrice = newPrice;
-        } throw new InvalidEntityException("가격이 0이거나 없습니다.");
+        if (newPrice == null || newPrice <= 0) {
+            throw new InvalidEntityException("가격은 0이상 이거나 필수입니다.");
+        } this.menuPrice = newPrice;
     }
 
     public void updateMenuStatus(MenuStatus newStatus) {
-        if (newStatus != null) {
-            this.menuStatus = newStatus;
-        } throw new InvalidEntityException("상태값은 필수입니다.");
+        if (newStatus == null) {
+            throw new InvalidEntityException("상태값은 필수입니다.");
+        } this.menuStatus = newStatus;
     }
 
 }

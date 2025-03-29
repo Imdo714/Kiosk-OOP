@@ -1,9 +1,6 @@
 package kiosk.api.order.domain.request;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,6 +8,7 @@ import java.util.List;
 @Getter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class OrderCreateRequest {
 
     private List<OrderDetailRequest> orderDetails; // 주문 상세 정보 목록
