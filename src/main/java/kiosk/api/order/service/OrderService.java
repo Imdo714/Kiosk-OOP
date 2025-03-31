@@ -31,16 +31,14 @@ public class OrderService {
 
     @Transactional
     public OrderResponse createOrder(OrderCreateRequest request) {
-        OrderEntity order = initializeOrder();
-
         int totalPrice = 0;
         int totalQuantity = 0;
         List<OrderDetailEntity> orderDetails = new ArrayList<>();
+        OrderEntity order = initializeOrder();
 
         for (OrderDetailRequest detail : request.getOrderDetails()) {
 
-            MenuEntity menu = menuRepository.findById(detail.getMenuId())
-                    .orElseThrow(() -> new MenuNotFoundException("해당 메뉴가 존재하지 않습니다."));
+            MenuEntity menu = getMenuEntity(detail);
 
             int price = menu.getMenuPrice() * detail.getOrderQuantity();
             totalPrice += price;
@@ -63,6 +61,11 @@ public class OrderService {
         orderRepository.save(order);
 
         return OrderResponse.of(order, orderDetail);
+    }
+
+    private MenuEntity getMenuEntity(OrderDetailRequest detail) {
+        return menuRepository.findById(detail.getMenuId())
+                .orElseThrow(() -> new MenuNotFoundException("해당 메뉴가 존재하지 않습니다."));
     }
 
     private OrderEntity initializeOrder() {
