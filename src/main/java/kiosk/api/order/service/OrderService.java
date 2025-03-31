@@ -9,6 +9,7 @@ import kiosk.api.order.domain.OrderEntity;
 import kiosk.api.order.domain.OrderRepository;
 import kiosk.api.order.domain.request.OrderCreateRequest;
 import kiosk.api.order.domain.request.OrderDetailRequest;
+import kiosk.api.order.domain.response.OrderResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,7 @@ public class OrderService {
     private final MenuRepository menuRepository;
 
     @Transactional
-    public void createOrder(OrderCreateRequest request) {
+    public OrderResponse createOrder(OrderCreateRequest request) {
         OrderEntity order = initializeOrder();
 
         int totalPrice = 0;
@@ -46,7 +47,7 @@ public class OrderService {
             totalQuantity += detail.getOrderQuantity();
 
             OrderDetailEntity orderDetail = OrderDetailEntity.builder()
-                    .orderEntity(order)  // (2) OrderEntity 설정
+                    .orderEntity(order)
                     .menuEntity(menu)
                     .orderDetailQuantity(detail.getOrderQuantity())
                     .build();
@@ -54,12 +55,14 @@ public class OrderService {
             orderDetails.add(orderDetail);
         }
 
-        orderDetailRepository.saveAll(orderDetails);
-        log.info("orderDetails = {}", orderDetails);
+        List<OrderDetailEntity> orderDetail = orderDetailRepository.saveAll(orderDetails);
+        log.info("orderDetail = {}", orderDetail);
 
         updateOrderPriceIfExists(order, totalPrice);
         updateOrderQuantityExists(order, totalQuantity);
         orderRepository.save(order);
+
+        return OrderResponse.of(order, orderDetail);
     }
 
     private OrderEntity initializeOrder() {

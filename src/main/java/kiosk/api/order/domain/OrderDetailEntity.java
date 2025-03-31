@@ -2,14 +2,12 @@ package kiosk.api.order.domain;
 
 import jakarta.persistence.*;
 import kiosk.api.menu.domain.MenuEntity;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Getter
 @Builder
 @Entity
 public class OrderDetailEntity {

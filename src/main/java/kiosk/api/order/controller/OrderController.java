@@ -1,6 +1,8 @@
 package kiosk.api.order.controller;
 
+import kiosk.api.ApiResponse;
 import kiosk.api.order.domain.request.OrderCreateRequest;
+import kiosk.api.order.domain.response.OrderResponse;
 import kiosk.api.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,9 +18,8 @@ public class OrderController {
     private final OrderService orderService;
 
     @PostMapping("/order/new")
-    public void createOrder(@RequestBody OrderCreateRequest request){
-
-        orderService.createOrder(request);
+    public ApiResponse<OrderResponse> createOrder(@RequestBody OrderCreateRequest request){
+        return ApiResponse.ok(orderService.createOrder(request));
     }
 
 }
