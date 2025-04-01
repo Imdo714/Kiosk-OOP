@@ -18,7 +18,6 @@ import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
 import static kiosk.api.menu.domain.MenuStatus.SELLING;
 import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
 @Transactional

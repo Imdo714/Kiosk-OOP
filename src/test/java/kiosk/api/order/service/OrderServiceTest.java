@@ -4,6 +4,7 @@ import kiosk.api.menu.domain.MenuCategory;
 import kiosk.api.menu.domain.MenuEntity;
 import kiosk.api.menu.domain.MenuRepository;
 import kiosk.api.menu.domain.MenuStatus;
+import kiosk.api.menu.exception.MenuNotFoundException;
 import kiosk.api.order.domain.request.OrderCreateRequest;
 import kiosk.api.order.domain.request.OrderDetailRequest;
 import kiosk.api.order.domain.response.OrderResponse;
@@ -19,6 +20,7 @@ import java.util.List;
 
 import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ActiveProfiles("test")
 @Transactional
@@ -131,6 +133,25 @@ class OrderServiceTest {
         assertThat(secondDetail.getOrderDetailQuantity()).isEqualTo(1);
         assertThat(secondDetail.getOrderDetailMenuPrice()).isEqualTo(1500);
         assertThat(secondDetail.getOrderDetailMenuName()).isEqualTo("카푸치노");
+    }
+
+    @DisplayName("없는 메뉴 주문 시 해당 메뉴가 존재하지 않습니다.")
+    @Test
+    void createOrderWhitNotMenuId() {
+        // given
+        OrderDetailRequest orderDetailRequest1 = getOrderDetailRequest(100L, 2);
+
+        List<OrderDetailRequest> orderDetails = new ArrayList<>();
+        orderDetails.add(orderDetailRequest1);
+
+        OrderCreateRequest request = OrderCreateRequest.builder()
+                .orderDetails(orderDetails)
+                .build();
+
+        // when // then
+        assertThatThrownBy(() -> orderService.createOrder(request))
+                .isInstanceOf(MenuNotFoundException.class)
+                .hasMessage("해당 메뉴가 존재하지 않습니다.");
     }
 
     private static OrderDetailRequest getOrderDetailRequest(Long menuId, int quantity) {
