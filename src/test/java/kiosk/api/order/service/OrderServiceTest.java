@@ -4,13 +4,9 @@ import kiosk.api.menu.domain.MenuCategory;
 import kiosk.api.menu.domain.MenuEntity;
 import kiosk.api.menu.domain.MenuRepository;
 import kiosk.api.menu.domain.MenuStatus;
-import kiosk.api.order.domain.OrderEntity;
-import kiosk.api.order.domain.OrderRepository;
 import kiosk.api.order.domain.request.OrderCreateRequest;
 import kiosk.api.order.domain.request.OrderDetailRequest;
 import kiosk.api.order.domain.response.OrderResponse;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,24 +28,34 @@ class OrderServiceTest {
     @Autowired
     private OrderService orderService;
     @Autowired
-    private OrderRepository orderRepository;
-    @Autowired
     private MenuRepository menuRepository;
 
 //    @BeforeEach
 //    void setUp() {
-//        orderRepository.deleteAll();
 //        menuRepository.deleteAll();
+//    }
+
+//    @AfterEach
+//    void tearDown() {
+//        menuRepository.deleteAllInBatch();
 //    }
 
     /**
      * @Transactional 을 사용하면 각 메서드가 끝난 후 롤백 됨
      * @BeforeEach 을 사용하면 각 메서드가 끝난 후 DB 초기화 됨
      *
-     * 현재 문제 : 테스트를 각각 실행하면 성공하지만 한번에 실행하면 DB가 롤백되지 않는 현상이 생김
+     * 현재 문제 : 테스트를 각각 실행하면 성공하지만 한번에 실행하면 없는 메뉴라고 나오거나 제약 조건 위반이라 나옴
      *
      * @Transactional를 사용해서 DB를 초기화시키면 해당 메뉴가 존재하지 않습니다. 라는 예외가 터짐 즉 MenuId가 없음
      * @BeforeEach를 사용해서 DB를 초기화시키면 제약 조건 위반 메뉴를 삭제 할 수 없다고 함
+     *
+     * Transactional는 최초에 조회해올 때 스냡샷을 뜨고 마지막에 Transactional 종료 시점에 인스턴스를 비교를 해서 달라진 부분이 있다면 업데이트 쿼리가 나감
+     *
+     * 첫 번째 테스트 실행시 엔티티 조회하면서 영속성 컨텍스트(1차 캐시)에 저장됨 트랙젹션이 끝나면서 변경된 부분이 있다면 업데이트 쿼리가 나감 테스트 성공
+     * 두 번째 테스트 실행시 동일한 데이터를 다시 등록하려고 하면 기존 영속성 컨텍스트와 충돌이 발생 특히 트랜잭션이 종료될 때 스냅샷과 비교하면서 예상치 못한 업데이트 쿼리가 나감
+     *
+     * 실패 원인 : 메뉴를 DB에 등록하고 멍청하게 하드 코딩으로 메뉴ID를 넣었더니 없는 아이디가 나옴 그래서 menu1.getMenuId()로 DB에 저장된 메뉴ID를 넣으니 성공 함
+     *
      */
 
     @DisplayName("단일 주문 생성 성공")
@@ -60,7 +65,7 @@ class OrderServiceTest {
         MenuEntity menu1 = createMenu("아메리카노", 1000, HANDMADE, MenuStatus.SELLING);
         menuRepository.save(menu1);
 
-        OrderDetailRequest orderDetailRequest1 = getOrderDetailRequest(1L, 2);
+        OrderDetailRequest orderDetailRequest1 = getOrderDetailRequest(menu1.getMenuId(), 2);
 
         List<OrderDetailRequest> orderDetails = new ArrayList<>();
         orderDetails.add(orderDetailRequest1);
@@ -94,8 +99,8 @@ class OrderServiceTest {
         MenuEntity menu2 = createMenu("카푸치노", 1500, HANDMADE, MenuStatus.SELLING);
         menuRepository.saveAll(List.of(menu1, menu2));
 
-        OrderDetailRequest orderDetailRequest1 = getOrderDetailRequest(1L, 2);
-        OrderDetailRequest orderDetailRequest2 = getOrderDetailRequest(2L, 1);
+        OrderDetailRequest orderDetailRequest1 = getOrderDetailRequest(menu1.getMenuId(), 2);
+        OrderDetailRequest orderDetailRequest2 = getOrderDetailRequest(menu2.getMenuId(), 1);
 
         List<OrderDetailRequest> orderDetails = new ArrayList<>();
         orderDetails.add(orderDetailRequest1);
