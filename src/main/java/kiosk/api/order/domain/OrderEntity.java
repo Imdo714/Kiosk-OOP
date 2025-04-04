@@ -34,6 +34,7 @@ public class OrderEntity {
     private LocalDateTime orderDate;
 
     @OneToMany(mappedBy = "orderEntity")
+    @Builder.Default
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
     public static OrderEntity createNow(int orderPrice, int orderQuantity) {
@@ -41,7 +42,8 @@ public class OrderEntity {
                 .orderPrice(orderPrice)
                 .orderQuantity(orderQuantity)
                 .orderDate(LocalDateTime.now())
-                .orderDetails(new ArrayList<>()) // new ArrayList<>()로 생성하지 안흥면 null이 들어가서 nullpointerexception 발생
+//                .orderDetails(new ArrayList<>()) // new ArrayList<>()로 생성하지 안흥면 null이 들어가서 nullpointerexception 발생
+//                그러나 @Builder.Default을 사용해 new ArrayList<>() 값으로 초기화 함 이러면 기본으로 ArrayList가 들어 감
                 .build();
     }
 
@@ -57,10 +59,6 @@ public class OrderEntity {
     }
 
     public void addOrderDetail(MenuEntity menu, int quantity) {
-//        if (this.orderDetails == null) {
-//            this.orderDetails = new ArrayList<>();
-//        }
-
         OrderDetailEntity detail = OrderDetailEntity.builder()
                 .orderEntity(this)
                 .menuEntity(menu)
