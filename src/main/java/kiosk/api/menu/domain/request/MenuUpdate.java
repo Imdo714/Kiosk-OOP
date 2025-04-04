@@ -1,6 +1,7 @@
 package kiosk.api.menu.domain.request;
 
 import jakarta.validation.constraints.Positive;
+import kiosk.api.menu.domain.MenuEntity;
 import kiosk.api.menu.domain.MenuStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -16,11 +17,20 @@ public class MenuUpdate {
 
     private MenuStatus menuStatus;
 
-    public boolean hasPrice() {
+    public void applyTo(MenuEntity menu) {
+        if (hasPrice()) {
+            menu.updateMenuPrice(menuPrice);
+        }
+        if (hasStatus()) {
+            menu.updateMenuStatus(menuStatus);
+        }
+    }
+
+    private boolean hasPrice() {
         return menuPrice != null;
     }
 
-    public boolean hasStatus() {
+    private boolean hasStatus() {
         return menuStatus != null;
     }
 

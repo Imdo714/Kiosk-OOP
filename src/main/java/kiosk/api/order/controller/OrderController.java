@@ -4,6 +4,7 @@ import kiosk.api.ApiResponse;
 import kiosk.api.order.domain.request.OrderCreateRequest;
 import kiosk.api.order.domain.response.OrderResponse;
 import kiosk.api.order.service.OrderService;
+import kiosk.api.order.service.OrderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PostMapping;

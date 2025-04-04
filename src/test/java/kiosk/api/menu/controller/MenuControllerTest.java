@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kiosk.api.menu.domain.request.MenuCreateRequest;
 import kiosk.api.menu.domain.request.MenuUpdate;
 import kiosk.api.menu.domain.response.MenuResponse;
-import kiosk.api.menu.service.MenuService;
+import kiosk.api.menu.service.MenuServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +34,7 @@ class MenuControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private MenuService menuService;
+    private MenuServiceImpl menuServiceImpl;
 
     @DisplayName("새로운 매뉴 등록 성공 결과 값")
     @Test
@@ -98,7 +98,7 @@ class MenuControllerTest {
                 .menuStatus(STOP_SELLING)
                 .build();
 
-        when(menuService.updateMenu(menuId, menuUpdate)).thenReturn(expectedResponse);
+        when(menuServiceImpl.updateMenu(menuId, menuUpdate)).thenReturn(expectedResponse);
 
         // when & then
         mockMvc.perform(patch("/menu/{menuId}", menuId)

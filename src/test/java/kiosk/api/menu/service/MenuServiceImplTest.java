@@ -22,10 +22,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-class MenuServiceTest {
+class MenuServiceImplTest {
 
     @Autowired
-    private MenuService menuService;
+    private MenuServiceImpl menuServiceImpl;
 
     @Autowired
     private MenuRepository menuRepository;
@@ -42,7 +42,7 @@ class MenuServiceTest {
                 .build();
 
         // when
-        MenuResponse menu = menuService.createMenu(request);
+        MenuResponse menu = menuServiceImpl.createMenu(request);
 
         // then
         assertThat(menu)
@@ -63,7 +63,7 @@ class MenuServiceTest {
                 .build();
 
         // when
-        MenuResponse menuResponse = menuService.updateMenu(1L, menuUpdate);
+        MenuResponse menuResponse = menuServiceImpl.updateMenu(1L, menuUpdate);
 
         // then
         assertThat(menu)

@@ -25,10 +25,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 @ActiveProfiles("test")
 @Transactional
 @SpringBootTest
-class OrderServiceTest {
+class OrderServiceImplTest {
 
     @Autowired
-    private OrderService orderService;
+    private OrderServiceImpl orderServiceImpl;
     @Autowired
     private MenuRepository menuRepository;
 
@@ -77,7 +77,7 @@ class OrderServiceTest {
                 .build();
 
         // when
-        OrderResponse order = orderService.createOrder(request);
+        OrderResponse order = orderServiceImpl.createOrder(request);
 
         // then
         assertThat(order).isNotNull();
@@ -113,7 +113,7 @@ class OrderServiceTest {
                 .build();
 
         // when
-        OrderResponse order = orderService.createOrder(request);
+        OrderResponse order = orderServiceImpl.createOrder(request);
 
         // then
         assertThat(order).isNotNull();
@@ -135,7 +135,7 @@ class OrderServiceTest {
         assertThat(secondDetail.getOrderDetailMenuName()).isEqualTo("카푸치노");
     }
 
-    @DisplayName("없는 메뉴 주문 시 해당 메뉴가 존재하지 않습니다.")
+    @DisplayName("없는 메뉴 주문 시 메뉴를 찾을 수 없습니다.")
     @Test
     void createOrderWhitNotMenuId() {
         // given
@@ -149,9 +149,9 @@ class OrderServiceTest {
                 .build();
 
         // when // then
-        assertThatThrownBy(() -> orderService.createOrder(request))
+        assertThatThrownBy(() -> orderServiceImpl.createOrder(request))
                 .isInstanceOf(MenuNotFoundException.class)
-                .hasMessage("해당 메뉴가 존재하지 않습니다.");
+                .hasMessage("메뉴를 찾을 수 없습니다.");
     }
 
     private static OrderDetailRequest getOrderDetailRequest(Long menuId, int quantity) {

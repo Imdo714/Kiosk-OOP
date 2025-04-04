@@ -4,14 +4,18 @@ import jakarta.persistence.*;
 import kiosk.api.menu.domain.MenuEntity;
 import kiosk.global.exception.handleException.InvalidEntityException;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Builder
 @Getter
+@Slf4j
 @Entity
 public class OrderEntity {
 
@@ -29,24 +33,43 @@ public class OrderEntity {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "menu_id")
-    private MenuEntity menuEntity;
+    @OneToMany(mappedBy = "orderEntity")
+    private List<OrderDetailEntity> orderDetails = new ArrayList<>();
+
+    public static OrderEntity createNow(int orderPrice, int orderQuantity) {
+        return OrderEntity.builder()
+                .orderPrice(orderPrice)
+                .orderQuantity(orderQuantity)
+                .orderDate(LocalDateTime.now())
+                .orderDetails(new ArrayList<>()) // new ArrayList<>()로 생성하지 안흥면 null이 들어가서 nullpointerexception 발생
+                .build();
+    }
 
     public void updateOrderPrice(int price){
         validPositiveValue(price, "가격은 0보다 커야 합니다.");
         this.orderPrice = price;
     }
 
-    public void updateOrderQuantity(int quantity){
-        validPositiveValue(quantity, "수량은 0보다 커야 합니다.");
-        this.orderQuantity = quantity;
-    }
-
     private void validPositiveValue(int value, String message) {
         if (value <= 0) {
             throw new InvalidEntityException(message);
         }
+    }
+
+    public void addOrderDetail(MenuEntity menu, int quantity) {
+//        if (this.orderDetails == null) {
+//            this.orderDetails = new ArrayList<>();
+//        }
+
+        OrderDetailEntity detail = OrderDetailEntity.builder()
+                .orderEntity(this)
+                .menuEntity(menu)
+                .orderDetailQuantity(quantity)
+                .build();
+
+        this.orderDetails.add(detail);
+        this.orderPrice += menu.getMenuPrice() * quantity;
+        this.orderQuantity += quantity;
     }
 
 }

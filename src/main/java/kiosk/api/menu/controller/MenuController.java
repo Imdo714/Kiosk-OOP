@@ -6,6 +6,7 @@ import kiosk.api.menu.domain.request.MenuCreateRequest;
 import kiosk.api.menu.domain.request.MenuUpdate;
 import kiosk.api.menu.domain.response.MenuResponse;
 import kiosk.api.menu.service.MenuService;
+import kiosk.api.menu.service.MenuServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
