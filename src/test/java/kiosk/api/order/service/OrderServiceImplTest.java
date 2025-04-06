@@ -2,7 +2,7 @@ package kiosk.api.order.service;
 
 import kiosk.api.menu.domain.MenuCategory;
 import kiosk.api.menu.domain.MenuEntity;
-import kiosk.api.menu.domain.MenuRepository;
+import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.menu.domain.MenuStatus;
 import kiosk.api.menu.exception.MenuNotFoundException;
 import kiosk.api.order.domain.request.OrderCreateRequest;

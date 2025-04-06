@@ -4,9 +4,9 @@ import jakarta.validation.Valid;
 import kiosk.api.ApiResponse;
 import kiosk.api.menu.domain.request.MenuCreateRequest;
 import kiosk.api.menu.domain.request.MenuUpdate;
+import kiosk.api.menu.domain.response.MenuListResponse;
 import kiosk.api.menu.domain.response.MenuResponse;
 import kiosk.api.menu.service.MenuService;
-import kiosk.api.menu.service.MenuServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,6 +24,14 @@ public class MenuController {
     @PatchMapping("/menu/{menuId}")
     public ApiResponse<MenuResponse> updateMenu(@Valid @PathVariable Long menuId, @RequestBody MenuUpdate request){
         return ApiResponse.ok(menuService.updateMenu(menuId, request));
+    }
+
+    @GetMapping("/menu") // 메뉴 조회
+    public ApiResponse<MenuListResponse> selectMenu(@RequestParam(required = false) String category,
+                                                    @RequestParam(required = false) String name,
+                                                    @RequestParam(required = false) String status
+    ){
+        return ApiResponse.ok(menuService.selectMenu(category, name, status));
     }
 
 }

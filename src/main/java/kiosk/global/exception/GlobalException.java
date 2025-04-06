@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kiosk.api.ApiResponse;
 import kiosk.api.menu.exception.MenuNotFoundException;
 import kiosk.global.exception.handleException.InvalidEntityException;
+import kiosk.global.exception.handleException.validEnumTypeException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
@@ -47,4 +48,12 @@ public class GlobalException {
 
         return ApiResponse.of(HttpStatus.BAD_REQUEST, errorMessage, null);
     }
+
+    // Enum 타입 검증 예외
+    @ExceptionHandler(validEnumTypeException.class)
+    public ApiResponse<Object> handleValidEnumTypeException(validEnumTypeException e, HttpServletResponse response) {
+        response.setStatus(HttpStatus.BAD_REQUEST.value());
+        return ApiResponse.of(HttpStatus.BAD_REQUEST, e.getMessage(), null);
+    }
+
 }

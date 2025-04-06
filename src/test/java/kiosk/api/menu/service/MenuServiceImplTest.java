@@ -2,7 +2,7 @@ package kiosk.api.menu.service;
 
 import kiosk.api.menu.domain.MenuCategory;
 import kiosk.api.menu.domain.MenuEntity;
-import kiosk.api.menu.domain.MenuRepository;
+import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.menu.domain.MenuStatus;
 import kiosk.api.menu.domain.request.MenuCreateRequest;
 import kiosk.api.menu.domain.request.MenuUpdate;
