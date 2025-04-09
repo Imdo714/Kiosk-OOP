@@ -1,11 +1,17 @@
 package kiosk.api.menu.domain;
 
 import kiosk.global.exception.handleException.InvalidEntityException;
+import kiosk.global.exception.handleException.validEnumTypeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
+import static kiosk.api.menu.domain.MenuStatus.SELLING;
+import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MenuEntityTest {
 
@@ -44,6 +50,21 @@ class MenuEntityTest {
 
         // then
         assertEquals(newStatus, menuEntity.getMenuStatus());  // 기대값은 SELLING
+    }
+
+    @DisplayName("MenuStatus가 판매 중지일 때 예외")
+    @Test
+    void getOrderValid() {
+        // given
+        MenuEntity menu = MenuEntity.builder()
+                .menuName("아메리카노")
+                .menuPrice(1000)
+                .menuCategory(HANDMADE)
+                .menuStatus(STOP_SELLING)
+                .build();
+
+        // when // then
+        assertThatThrownBy(() -> menu.getOrderValid()).isInstanceOf(validEnumTypeException.class).hasMessage("아메리카노는 판매 중지 상품입니다.");
     }
 
 }

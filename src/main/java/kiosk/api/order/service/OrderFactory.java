@@ -21,6 +21,7 @@ public class OrderFactory {
 
         for (OrderDetailRequest detail : request.getOrderDetails()) {
             MenuEntity menu = menuService.findById(detail.getMenuId());
+            menu.getOrderValid();
 
             order.addOrderDetail(menu, detail.getOrderQuantity());
         }

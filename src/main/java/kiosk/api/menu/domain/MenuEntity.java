@@ -2,7 +2,10 @@ package kiosk.api.menu.domain;
 
 import jakarta.persistence.*;
 import kiosk.global.exception.handleException.InvalidEntityException;
+import kiosk.global.exception.handleException.validEnumTypeException;
 import lombok.*;
+
+import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -41,6 +44,12 @@ public class MenuEntity {
         if (newStatus == null) {
             throw new InvalidEntityException("상태값은 필수입니다.");
         } this.menuStatus = newStatus;
+    }
+
+    public void getOrderValid() {
+        if(this.menuStatus.equals(STOP_SELLING)){
+            throw new validEnumTypeException(this.menuName + "는 판매 중지 상품입니다.");
+        }
     }
 
 }
