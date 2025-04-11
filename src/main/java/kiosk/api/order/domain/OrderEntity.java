@@ -52,6 +52,10 @@ public class OrderEntity {
         this.orderPrice = price;
     }
 
+    public void checkQuantity(int quantity){
+        validPositiveValue(quantity, "주문 수량은 0보다 커야 합니다.");
+    }
+
     private void validPositiveValue(int value, String message) {
         if (value <= 0) {
             throw new InvalidEntityException(message);
@@ -59,6 +63,8 @@ public class OrderEntity {
     }
 
     public void addOrderDetail(MenuEntity menu, int quantity) {
+        checkQuantity(quantity);
+
         OrderDetailEntity detail = OrderDetailEntity.builder()
                 .orderEntity(this)
                 .menuEntity(menu)

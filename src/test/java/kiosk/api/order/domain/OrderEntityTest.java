@@ -4,8 +4,8 @@ import kiosk.global.exception.handleException.InvalidEntityException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class OrderEntityTest {
 
@@ -29,19 +29,22 @@ class OrderEntityTest {
         OrderEntity order = new OrderEntity();
 
         // when // then
-        assertThrows(InvalidEntityException.class, () -> {
-            order.updateOrderPrice(0);}, "가격은 0보다 커야 합니다.");
+        assertThatThrownBy(() -> order.updateOrderPrice(0))
+                .isInstanceOf(InvalidEntityException.class)
+                .hasMessage("가격은 0보다 커야 합니다.");
     }
 
-    @DisplayName("수량을 업데이트 할때 0보다 커야 합니다.")
+
+    @DisplayName("주문 수량은 0보다 커야 합니다.")
     @Test
-    void updateOrderQuantityWithException() {
+    void checkQuantity() {
         // given
         OrderEntity order = new OrderEntity();
 
         // when // then
-        assertThrows(InvalidEntityException.class, () -> {
-            order.updateOrderPrice(0);}, "수량은 0보다 커야 합니다.");
+        assertThatThrownBy(() -> order.checkQuantity(0))
+                .isInstanceOf(InvalidEntityException.class)
+                .hasMessage("주문 수량은 0보다 커야 합니다.");
     }
 
 }
