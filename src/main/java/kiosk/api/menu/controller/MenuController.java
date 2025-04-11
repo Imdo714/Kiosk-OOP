@@ -2,10 +2,10 @@ package kiosk.api.menu.controller;
 
 import jakarta.validation.Valid;
 import kiosk.api.ApiResponse;
-import kiosk.api.menu.domain.request.MenuCreateRequest;
-import kiosk.api.menu.domain.request.MenuUpdate;
-import kiosk.api.menu.domain.response.MenuListResponse;
-import kiosk.api.menu.domain.response.MenuResponse;
+import kiosk.api.menu.domain.dto.request.MenuCreateRequest;
+import kiosk.api.menu.domain.dto.request.MenuUpdate;
+import kiosk.api.menu.domain.dto.response.MenuListResponse;
+import kiosk.api.menu.domain.dto.response.MenuResponse;
 import kiosk.api.menu.service.MenuService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

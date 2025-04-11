@@ -2,7 +2,7 @@ package kiosk.global.exception;
 
 import jakarta.servlet.http.HttpServletResponse;
 import kiosk.api.ApiResponse;
-import kiosk.api.menu.exception.MenuNotFoundException;
+import kiosk.global.exception.handleException.MenuNotFoundException;
 import kiosk.global.exception.handleException.InvalidEntityException;
 import kiosk.global.exception.handleException.validEnumTypeException;
 import lombok.extern.slf4j.Slf4j;

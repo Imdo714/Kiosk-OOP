@@ -1,8 +1,8 @@
-package kiosk.api.menu.domain.request;
+package kiosk.api.menu.domain.dto.request;
 
 import jakarta.validation.constraints.Positive;
-import kiosk.api.menu.domain.MenuEntity;
-import kiosk.api.menu.domain.MenuStatus;
+import kiosk.api.menu.domain.entity.MenuEntity;
+import kiosk.api.menu.domain.common.MenuStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

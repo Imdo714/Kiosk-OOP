@@ -1,13 +1,12 @@
 package kiosk.api.menu.service;
 
-import kiosk.api.menu.domain.MenuEntity;
-import kiosk.api.menu.domain.response.MenuListResponse;
-import kiosk.api.menu.repository.MenuQueryDsl;
+import kiosk.api.menu.domain.entity.MenuEntity;
+import kiosk.api.menu.domain.dto.response.MenuListResponse;
 import kiosk.api.menu.repository.MenuRepository;
-import kiosk.api.menu.domain.request.MenuCreateRequest;
-import kiosk.api.menu.domain.request.MenuUpdate;
-import kiosk.api.menu.domain.response.MenuResponse;
-import kiosk.api.menu.exception.MenuNotFoundException;
+import kiosk.api.menu.domain.dto.request.MenuCreateRequest;
+import kiosk.api.menu.domain.dto.request.MenuUpdate;
+import kiosk.api.menu.domain.dto.response.MenuResponse;
+import kiosk.global.exception.handleException.MenuNotFoundException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

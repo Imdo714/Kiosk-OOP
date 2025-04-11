@@ -1,7 +1,7 @@
-package kiosk.api.order.domain.response;
+package kiosk.api.order.domain.dto.response;
 
-import kiosk.api.order.domain.OrderDetailEntity;
-import kiosk.api.order.domain.OrderEntity;
+import kiosk.api.order.domain.entity.OrderDetailEntity;
+import kiosk.api.order.domain.entity.OrderEntity;
 import lombok.*;
 
 import java.time.LocalDateTime;

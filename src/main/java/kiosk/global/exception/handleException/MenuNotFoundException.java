@@ -1,4 +1,4 @@
-package kiosk.api.menu.exception;
+package kiosk.global.exception.handleException;
 
 public class MenuNotFoundException extends RuntimeException{
 

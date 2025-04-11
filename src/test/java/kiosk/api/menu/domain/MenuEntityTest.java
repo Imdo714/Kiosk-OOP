@@ -1,13 +1,14 @@
 package kiosk.api.menu.domain;
 
+import kiosk.api.menu.domain.common.MenuStatus;
+import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.global.exception.handleException.InvalidEntityException;
 import kiosk.global.exception.handleException.validEnumTypeException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
-import static kiosk.api.menu.domain.MenuStatus.SELLING;
-import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
+import static kiosk.api.menu.domain.common.MenuCategory.HANDMADE;
+import static kiosk.api.menu.domain.common.MenuStatus.STOP_SELLING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.*;

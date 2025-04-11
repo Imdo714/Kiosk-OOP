@@ -1,9 +1,9 @@
 package kiosk.api.menu.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import kiosk.api.menu.domain.request.MenuCreateRequest;
-import kiosk.api.menu.domain.request.MenuUpdate;
-import kiosk.api.menu.domain.response.MenuResponse;
+import kiosk.api.menu.domain.dto.request.MenuCreateRequest;
+import kiosk.api.menu.domain.dto.request.MenuUpdate;
+import kiosk.api.menu.domain.dto.response.MenuResponse;
 import kiosk.api.menu.service.MenuServiceImpl;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -12,11 +12,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.bind.annotation.GetMapping;
 
-import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
-import static kiosk.api.menu.domain.MenuStatus.SELLING;
-import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
+import static kiosk.api.menu.domain.common.MenuCategory.HANDMADE;
+import static kiosk.api.menu.domain.common.MenuStatus.SELLING;
+import static kiosk.api.menu.domain.common.MenuStatus.STOP_SELLING;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;

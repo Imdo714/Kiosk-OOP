@@ -1,4 +1,4 @@
-package kiosk.api.menu.domain;
+package kiosk.api.menu.domain.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

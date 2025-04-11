@@ -1,13 +1,13 @@
 package kiosk.api.order.service;
 
-import kiosk.api.menu.domain.MenuCategory;
-import kiosk.api.menu.domain.MenuEntity;
+import kiosk.api.menu.domain.common.MenuCategory;
+import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.repository.MenuRepository;
-import kiosk.api.menu.domain.MenuStatus;
-import kiosk.api.menu.exception.MenuNotFoundException;
-import kiosk.api.order.domain.request.OrderCreateRequest;
-import kiosk.api.order.domain.request.OrderDetailRequest;
-import kiosk.api.order.domain.response.OrderResponse;
+import kiosk.api.menu.domain.common.MenuStatus;
+import kiosk.global.exception.handleException.MenuNotFoundException;
+import kiosk.api.order.domain.dto.request.OrderCreateRequest;
+import kiosk.api.order.domain.dto.request.OrderDetailRequest;
+import kiosk.api.order.domain.dto.response.OrderResponse;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
+import static kiosk.api.menu.domain.common.MenuCategory.HANDMADE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

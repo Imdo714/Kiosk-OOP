@@ -1,10 +1,10 @@
 package kiosk.api.order.service.detaileLogic;
 
-import kiosk.api.menu.domain.MenuEntity;
+import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.service.MenuService;
-import kiosk.api.order.domain.OrderEntity;
-import kiosk.api.order.domain.request.OrderCreateRequest;
-import kiosk.api.order.domain.request.OrderDetailRequest;
+import kiosk.api.order.domain.entity.OrderEntity;
+import kiosk.api.order.domain.dto.request.OrderCreateRequest;
+import kiosk.api.order.domain.dto.request.OrderDetailRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

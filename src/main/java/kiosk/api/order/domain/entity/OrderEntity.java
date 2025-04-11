@@ -1,7 +1,7 @@
-package kiosk.api.order.domain;
+package kiosk.api.order.domain.entity;
 
 import jakarta.persistence.*;
-import kiosk.api.menu.domain.MenuEntity;
+import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.global.exception.handleException.InvalidEntityException;
 import lombok.*;
 import lombok.extern.slf4j.Slf4j;

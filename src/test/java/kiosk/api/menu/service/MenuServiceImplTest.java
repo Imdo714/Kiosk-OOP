@@ -1,13 +1,13 @@
 package kiosk.api.menu.service;
 
-import kiosk.api.menu.domain.MenuCategory;
-import kiosk.api.menu.domain.MenuEntity;
-import kiosk.api.menu.domain.response.MenuListResponse;
+import kiosk.api.menu.domain.common.MenuCategory;
+import kiosk.api.menu.domain.entity.MenuEntity;
+import kiosk.api.menu.domain.dto.response.MenuListResponse;
 import kiosk.api.menu.repository.MenuRepository;
-import kiosk.api.menu.domain.MenuStatus;
-import kiosk.api.menu.domain.request.MenuCreateRequest;
-import kiosk.api.menu.domain.request.MenuUpdate;
-import kiosk.api.menu.domain.response.MenuResponse;
+import kiosk.api.menu.domain.common.MenuStatus;
+import kiosk.api.menu.domain.dto.request.MenuCreateRequest;
+import kiosk.api.menu.domain.dto.request.MenuUpdate;
+import kiosk.api.menu.domain.dto.response.MenuResponse;
 import kiosk.global.exception.handleException.validEnumTypeException;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
@@ -19,10 +19,10 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-import static kiosk.api.menu.domain.MenuCategory.BOTTLE;
-import static kiosk.api.menu.domain.MenuCategory.HANDMADE;
-import static kiosk.api.menu.domain.MenuStatus.SELLING;
-import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
+import static kiosk.api.menu.domain.common.MenuCategory.BOTTLE;
+import static kiosk.api.menu.domain.common.MenuCategory.HANDMADE;
+import static kiosk.api.menu.domain.common.MenuStatus.SELLING;
+import static kiosk.api.menu.domain.common.MenuStatus.STOP_SELLING;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 

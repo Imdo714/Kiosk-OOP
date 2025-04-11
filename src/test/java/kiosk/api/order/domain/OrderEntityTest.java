@@ -1,5 +1,6 @@
 package kiosk.api.order.domain;
 
+import kiosk.api.order.domain.entity.OrderEntity;
 import kiosk.global.exception.handleException.InvalidEntityException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

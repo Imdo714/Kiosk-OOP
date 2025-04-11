@@ -1,8 +1,8 @@
-package kiosk.api.menu.domain.response;
+package kiosk.api.menu.domain.dto.response;
 
-import kiosk.api.menu.domain.MenuCategory;
-import kiosk.api.menu.domain.MenuEntity;
-import kiosk.api.menu.domain.MenuStatus;
+import kiosk.api.menu.domain.common.MenuCategory;
+import kiosk.api.menu.domain.entity.MenuEntity;
+import kiosk.api.menu.domain.common.MenuStatus;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

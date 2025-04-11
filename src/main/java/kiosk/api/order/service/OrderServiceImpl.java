@@ -1,13 +1,13 @@
 package kiosk.api.order.service;
 
-import kiosk.api.order.domain.OrderDetailRepository;
-import kiosk.api.order.domain.OrderEntity;
-import kiosk.api.order.domain.request.OrderDTO;
-import kiosk.api.order.domain.request.OrderDateRequest;
-import kiosk.api.order.domain.response.OrderDailyResponse;
+import kiosk.api.order.repository.OrderDetailRepository;
+import kiosk.api.order.domain.entity.OrderEntity;
+import kiosk.api.order.domain.internal.OrderDTO;
+import kiosk.api.order.domain.dto.request.OrderDateRequest;
+import kiosk.api.order.domain.dto.response.OrderDailyResponse;
 import kiosk.api.order.repository.OrderRepository;
-import kiosk.api.order.domain.request.OrderCreateRequest;
-import kiosk.api.order.domain.response.OrderResponse;
+import kiosk.api.order.domain.dto.request.OrderCreateRequest;
+import kiosk.api.order.domain.dto.response.OrderResponse;
 import kiosk.api.order.service.detaileLogic.OrderFactory;
 import kiosk.api.order.service.detaileLogic.OrderSummary;
 import lombok.RequiredArgsConstructor;

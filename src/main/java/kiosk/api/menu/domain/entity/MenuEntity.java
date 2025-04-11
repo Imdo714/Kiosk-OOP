@@ -1,11 +1,13 @@
-package kiosk.api.menu.domain;
+package kiosk.api.menu.domain.entity;
 
 import jakarta.persistence.*;
+import kiosk.api.menu.domain.common.MenuCategory;
+import kiosk.api.menu.domain.common.MenuStatus;
 import kiosk.global.exception.handleException.InvalidEntityException;
 import kiosk.global.exception.handleException.validEnumTypeException;
 import lombok.*;
 
-import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
+import static kiosk.api.menu.domain.common.MenuStatus.STOP_SELLING;
 
 @AllArgsConstructor
 @NoArgsConstructor

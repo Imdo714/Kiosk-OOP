@@ -1,4 +1,4 @@
-package kiosk.api.order.domain.request;
+package kiosk.api.order.domain.dto.request;
 
 import lombok.*;
 
