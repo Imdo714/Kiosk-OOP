@@ -2,11 +2,13 @@ package kiosk.api.order.controller;
 
 import kiosk.api.ApiResponse;
 import kiosk.api.order.domain.request.OrderCreateRequest;
+import kiosk.api.order.domain.request.OrderDateRequest;
+import kiosk.api.order.domain.response.OrderDailyResponse;
 import kiosk.api.order.domain.response.OrderResponse;
 import kiosk.api.order.service.OrderService;
-import kiosk.api.order.service.OrderServiceImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -21,6 +23,11 @@ public class OrderController {
     @PostMapping("/order/new")
     public ApiResponse<OrderResponse> createOrder(@RequestBody OrderCreateRequest request){
         return ApiResponse.ok(orderService.createOrder(request));
+    }
+
+    @GetMapping("/order/date")
+    public ApiResponse<OrderDailyResponse> getDailyOrder(@RequestBody OrderDateRequest request){
+        return ApiResponse.ok(orderService.getDailyOrder(request));
     }
 
 }

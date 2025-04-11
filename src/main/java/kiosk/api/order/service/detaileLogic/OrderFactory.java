@@ -1,4 +1,4 @@
-package kiosk.api.order.service;
+package kiosk.api.order.service.detaileLogic;
 
 import kiosk.api.menu.domain.MenuEntity;
 import kiosk.api.menu.service.MenuService;

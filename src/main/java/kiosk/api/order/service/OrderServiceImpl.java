@@ -2,13 +2,21 @@ package kiosk.api.order.service;
 
 import kiosk.api.order.domain.OrderDetailRepository;
 import kiosk.api.order.domain.OrderEntity;
+import kiosk.api.order.domain.request.OrderDTO;
+import kiosk.api.order.domain.request.OrderDateRequest;
+import kiosk.api.order.domain.response.OrderDailyResponse;
 import kiosk.api.order.repository.OrderRepository;
 import kiosk.api.order.domain.request.OrderCreateRequest;
 import kiosk.api.order.domain.response.OrderResponse;
+import kiosk.api.order.service.detaileLogic.OrderFactory;
+import kiosk.api.order.service.detaileLogic.OrderSummary;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -22,6 +30,7 @@ public class OrderServiceImpl implements OrderService{
     private final OrderFactory orderFactory;
 
     @Override
+    @Transactional
     public OrderResponse createOrder(OrderCreateRequest request) {
         OrderEntity order = orderFactory.create(request);
 
@@ -30,4 +39,16 @@ public class OrderServiceImpl implements OrderService{
 
         return OrderResponse.of(order, order.getOrderDetails());
     }
+
+    @Override
+    public OrderDailyResponse getDailyOrder(OrderDateRequest request) {
+        LocalDateTime start = request.getCreatedAt().atStartOfDay();
+        LocalDateTime end = request.getCreatedAt().plusDays(1).atStartOfDay();
+
+        List<OrderDTO> order = orderRepository.findDailyOrder(start, end);
+        OrderSummary orderSummary = OrderSummary.calculateTotal(order);
+
+        return new OrderDailyResponse(orderSummary.getTotalPrice(), orderSummary.getTotalQuantity(), request.getCreatedAt());
+    }
+
 }

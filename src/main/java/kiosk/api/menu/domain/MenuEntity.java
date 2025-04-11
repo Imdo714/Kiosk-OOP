@@ -13,6 +13,7 @@ import static kiosk.api.menu.domain.MenuStatus.STOP_SELLING;
 @Getter
 @ToString
 @Entity
+//@Table(name = "menu")
 public class MenuEntity {
 
     @Id
