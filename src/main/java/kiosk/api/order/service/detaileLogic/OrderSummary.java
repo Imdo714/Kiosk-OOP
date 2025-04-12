@@ -17,8 +17,14 @@ public class OrderSummary {
     }
 
     public static OrderSummary calculateTotal(List<OrderDTO> orders) {
-        int totalQty = orders.stream().mapToInt(OrderDTO::getOrderQuantity).sum();
-        int totalPrice = orders.stream().mapToInt(OrderDTO::getOrderPrice).sum();
+        int totalQty = orders.stream()
+                .mapToInt(order -> order.getOrderQuantity())
+                .sum();
+
+        int totalPrice = orders.stream()
+                .mapToInt(OrderDTO::getOrderPrice)
+                .sum();
+
         return new OrderSummary(totalQty, totalPrice);
     }
 

@@ -1,5 +1,6 @@
 package kiosk.api.order.controller;
 
+import jakarta.validation.Valid;
 import kiosk.api.ApiResponse;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.request.OrderDateRequest;
@@ -26,7 +27,7 @@ public class OrderController {
     }
 
     @GetMapping("/order/date")
-    public ApiResponse<OrderDailyResponse> getDailyOrder(@RequestBody OrderDateRequest request){
+    public ApiResponse<OrderDailyResponse> getDailyOrder(@Valid @RequestBody OrderDateRequest request){
         return ApiResponse.ok(orderService.getDailyOrder(request));
     }
 

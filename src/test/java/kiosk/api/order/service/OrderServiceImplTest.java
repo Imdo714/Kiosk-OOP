@@ -4,6 +4,8 @@ import kiosk.api.menu.domain.common.MenuCategory;
 import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.menu.domain.common.MenuStatus;
+import kiosk.api.order.domain.dto.request.OrderDateRequest;
+import kiosk.api.order.domain.dto.response.OrderDailyResponse;
 import kiosk.global.exception.handleException.MenuNotFoundException;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.request.OrderDetailRequest;
@@ -15,6 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -152,6 +155,35 @@ class OrderServiceImplTest {
         assertThatThrownBy(() -> orderServiceImpl.createOrder(request))
                 .isInstanceOf(MenuNotFoundException.class)
                 .hasMessage("메뉴를 찾을 수 없습니다.");
+    }
+
+    @DisplayName("원하는 날 총 주문 수량 총 금액 조회")
+    @Test
+    void OrderDailyResponse() {
+        // given
+        MenuEntity menu1 = createMenu("아메리카노", 1000, HANDMADE, MenuStatus.SELLING);
+        menuRepository.save(menu1);
+
+        OrderDetailRequest detailRequest = getOrderDetailRequest(menu1.getMenuId(), 2);
+        List<OrderDetailRequest> details = List.of(detailRequest);
+
+        OrderCreateRequest createRequest = OrderCreateRequest.builder()
+                .orderDetails(details)
+                .build();
+
+        orderServiceImpl.createOrder(createRequest); // 주문 생성
+
+        OrderDateRequest dateRequest = OrderDateRequest.builder()
+                .createdAt(LocalDate.now())
+                .build();
+
+        // when
+        OrderDailyResponse dailyOrder = orderServiceImpl.getDailyOrder(dateRequest);
+
+        // then
+        assertThat(dailyOrder).isNotNull();
+        assertThat(dailyOrder.getOrderPrice()).isEqualTo(2000);
+        assertThat(dailyOrder.getOrderQuantity()).isEqualTo(2);
     }
 
     private static OrderDetailRequest getOrderDetailRequest(Long menuId, int quantity) {
