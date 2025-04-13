@@ -4,8 +4,8 @@ import kiosk.api.menu.domain.common.MenuCategory;
 import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.menu.domain.common.MenuStatus;
-import kiosk.api.order.domain.dto.request.OrderDateRequest;
-import kiosk.api.order.domain.dto.response.OrderDailyResponse;
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
+import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.global.exception.handleException.MenuNotFoundException;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.request.OrderDetailRequest;
@@ -174,16 +174,16 @@ class OrderServiceImplTest {
         orderServiceImpl.createOrder(createRequest); // 주문 생성
 
         OrderDateRequest dateRequest = OrderDateRequest.builder()
-                .createdAt(LocalDate.now())
+                .date(LocalDate.now())
                 .build();
 
         // when
-        OrderDailyResponse dailyOrder = orderServiceImpl.getDailyOrder(dateRequest);
+        OrderDateTotalResponse dailyOrder = orderServiceImpl.getDailyOrder(dateRequest);
 
         // then
         assertThat(dailyOrder).isNotNull();
-        assertThat(dailyOrder.getOrderPrice()).isEqualTo(2000);
-        assertThat(dailyOrder.getOrderQuantity()).isEqualTo(2);
+        assertThat(dailyOrder.getTotalPrice()).isEqualTo(2000);
+        assertThat(dailyOrder.getTotalQuantity()).isEqualTo(2);
     }
 
     private static OrderDetailRequest getOrderDetailRequest(Long menuId, int quantity) {

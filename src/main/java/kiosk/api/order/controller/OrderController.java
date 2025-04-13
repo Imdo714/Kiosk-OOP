@@ -3,8 +3,9 @@ package kiosk.api.order.controller;
 import jakarta.validation.Valid;
 import kiosk.api.ApiResponse;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
-import kiosk.api.order.domain.dto.request.OrderDateRequest;
-import kiosk.api.order.domain.dto.response.OrderDailyResponse;
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateTimeRangeRequest;
+import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.domain.dto.response.OrderResponse;
 import kiosk.api.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -27,8 +28,13 @@ public class OrderController {
     }
 
     @GetMapping("/order/date")
-    public ApiResponse<OrderDailyResponse> getDailyOrder(@Valid @RequestBody OrderDateRequest request){
+    public ApiResponse<OrderDateTotalResponse> getDailyOrder(@Valid @RequestBody OrderDateRequest request){
         return ApiResponse.ok(orderService.getDailyOrder(request));
+    }
+
+    @GetMapping("/order/dateTime")
+    public ApiResponse<OrderDateTotalResponse> getDailyTimeOrder(@Valid @RequestBody OrderDateTimeRangeRequest request){
+        return ApiResponse.ok(orderService.getDailyTimeOrder(request));
     }
 
 }

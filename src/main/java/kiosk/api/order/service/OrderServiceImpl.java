@@ -1,22 +1,21 @@
 package kiosk.api.order.service;
 
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateTimeRangeRequest;
 import kiosk.api.order.repository.OrderDetailRepository;
 import kiosk.api.order.domain.entity.OrderEntity;
-import kiosk.api.order.domain.internal.OrderDTO;
-import kiosk.api.order.domain.dto.request.OrderDateRequest;
-import kiosk.api.order.domain.dto.response.OrderDailyResponse;
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
+import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.repository.OrderRepository;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.response.OrderResponse;
+import kiosk.api.order.service.detaileLogic.OrderDateTimeResponseGenerator;
 import kiosk.api.order.service.detaileLogic.OrderFactory;
-import kiosk.api.order.service.detaileLogic.OrderSummary;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -26,8 +25,8 @@ public class OrderServiceImpl implements OrderService{
 
     private final OrderRepository orderRepository;
     private final OrderDetailRepository orderDetailRepository;
-
     private final OrderFactory orderFactory;
+    private final OrderDateTimeResponseGenerator orderDateTimeResponseGenerator;
 
     @Override
     @Transactional
@@ -41,14 +40,18 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public OrderDailyResponse getDailyOrder(OrderDateRequest request) {
-        LocalDateTime start = request.getCreatedAt().atStartOfDay();
-        LocalDateTime end = request.getCreatedAt().plusDays(1).atStartOfDay();
+    public OrderDateTotalResponse getDailyOrder(OrderDateRequest request) {
+        LocalDateTime start = request.getDate().atStartOfDay();
+        LocalDateTime end = request.getDate().plusDays(1).atStartOfDay();
 
-        List<OrderDTO> order = orderRepository.findDailyOrder(start, end);
-        OrderSummary orderSummary = OrderSummary.calculateTotal(order);
-
-        return new OrderDailyResponse(orderSummary.getTotalPrice(), orderSummary.getTotalQuantity(), request.getCreatedAt());
+        return orderDateTimeResponseGenerator.getOrderDailyResponse(start, end, request.getDate());
     }
+
+    @Override
+    public OrderDateTotalResponse getDailyTimeOrder(OrderDateTimeRangeRequest request) {
+        return orderDateTimeResponseGenerator.getOrderDailyResponse(request.getStartDateTime(), request.getEndDateTime(), request.getDate());
+    }
+
+
 
 }
