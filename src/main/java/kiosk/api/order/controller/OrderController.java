@@ -7,6 +7,7 @@ import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateTimeRangeRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.domain.dto.response.OrderResponse;
+import kiosk.api.order.service.orderGetDate.OrderQueryService;
 import kiosk.api.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class OrderController {
 
     private final OrderService orderService;
+    private final OrderQueryService orderQueryService;
 
     @PostMapping("/order/new")
     public ApiResponse<OrderResponse> createOrder(@RequestBody OrderCreateRequest request){
@@ -29,12 +31,12 @@ public class OrderController {
 
     @GetMapping("/order/date")
     public ApiResponse<OrderDateTotalResponse> getDailyOrder(@Valid @RequestBody OrderDateRequest request){
-        return ApiResponse.ok(orderService.getDailyOrder(request));
+        return ApiResponse.ok(orderQueryService.getDailyOrder(request));
     }
 
     @GetMapping("/order/dateTime")
     public ApiResponse<OrderDateTotalResponse> getDailyTimeOrder(@Valid @RequestBody OrderDateTimeRangeRequest request){
-        return ApiResponse.ok(orderService.getDailyTimeOrder(request));
+        return ApiResponse.ok(orderQueryService.getDailyTimeOrder(request));
     }
 
 }
