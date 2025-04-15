@@ -15,4 +15,6 @@ public interface MenuService {
     MenuEntity findById(Long menuId);
 
     MenuListResponse selectMenu(String category, String name, String status);
+
+    MenuEntity findByIdWithDiscount(Long menuId);
 }

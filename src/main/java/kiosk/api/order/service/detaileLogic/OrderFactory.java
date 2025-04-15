@@ -1,5 +1,6 @@
 package kiosk.api.order.service.detaileLogic;
 
+import kiosk.api.discount.domain.entity.DiscountEntity;
 import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.service.MenuService;
 import kiosk.api.order.domain.entity.OrderEntity;
@@ -20,7 +21,8 @@ public class OrderFactory {
         OrderEntity order = OrderEntity.createNow(0, 0);
 
         for (OrderDetailRequest detail : request.getOrderDetails()) {
-            MenuEntity menu = menuService.findById(detail.getMenuId());
+            MenuEntity menu = menuService.findByIdWithDiscount(detail.getMenuId());
+
             menu.getOrderValid();
 
             order.addOrderDetail(menu, detail.getOrderQuantity());

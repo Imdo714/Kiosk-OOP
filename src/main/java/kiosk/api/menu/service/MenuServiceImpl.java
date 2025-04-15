@@ -52,5 +52,10 @@ public class MenuServiceImpl implements MenuService{
         return MenuListResponse.arr(dslAll);
     }
 
+    @Override
+    public MenuEntity findByIdWithDiscount(Long menuId) {
+        return menuRepository.findByIdWithDiscount(menuId);
+    }
+
 
 }

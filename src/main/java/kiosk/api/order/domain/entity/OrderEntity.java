@@ -65,6 +65,8 @@ public class OrderEntity {
     public void addOrderDetail(MenuEntity menu, int quantity) {
         checkQuantity(quantity);
 
+        int discountedPrice = menu.getDiscountedPrice();
+
         OrderDetailEntity detail = OrderDetailEntity.builder()
                 .orderEntity(this)
                 .menuEntity(menu)
@@ -72,7 +74,7 @@ public class OrderEntity {
                 .build();
 
         this.orderDetails.add(detail);
-        this.orderPrice += menu.getMenuPrice() * quantity;
+        this.orderPrice += discountedPrice * quantity;
         this.orderQuantity += quantity;
     }
 
