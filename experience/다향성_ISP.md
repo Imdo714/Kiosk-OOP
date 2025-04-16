@@ -46,7 +46,6 @@ public interface OrderQueryService {
 
 - 아직은 괜찮지만, 미래 확장성을 고려했을 때는 OrderQueryService가 너무 많은 조회 책임을 갖게 되지 않도록 인터페이스 분리
 - 즉, 월간 인터페이스, 주간 인터페이스, 일일 인터페이스, 시간별 인터페이스로 나눔
-- 이제 분기 조회 기능 추가 시 코드 수정 없이 분기 인터페이스 생성해서 구현체 하나만 생성하면 된다.
 ```java
 public interface DailyOrderQueryService { 
     // 일일 조회
@@ -65,6 +64,41 @@ public interface MonthlyOrderQueryService {
     OrderDateTotalResponse getMonthlyOrder(OrderDateRequest request);
 }
 ```
+
+## 구현체 코드
+
+- 서비스 단에서 복잡한 날짜 로직 분리 즉,
+- 날짜 계산은 전부 서비스 단에서 끝내고, OrderDateTimeGenerator는 가공된 날짜만 받아서 처리.
+- 이제 분기 조회 같은 날짜 조회 기능 추가 시 코드 수정 없이 분기 인터페이스 생성해서 구현체 하나만 생성하면 된다.
+
+```java
+public class DailyOrderQueryServiceImpl implements DailyOrderQueryService{
+    
+    private final OrderDateTimeGenerator orderDateTimeGenerator;
+
+    @Override
+    public OrderDateTotalResponse getDailyOrder(OrderDateRequest request) {
+        LocalDateTime start = request.getDate().atStartOfDay();
+        LocalDateTime end = request.getDate().plusDays(1).atStartOfDay();
+
+        return orderDateTimeGenerator.getOrderDailyResponse(start, end, request.getDate());
+    }
+}
+
+public class WeeklyOrderQueryServiceImpl implements WeeklyOrderQueryService {
+
+    private final OrderDateTimeGenerator orderDateTimeGenerator;
+  
+    @Override
+    public OrderDateTotalResponse getWeeklyOrder(OrderDateRequest request) {
+        LocalDateTime startDate = request.getDate().with(DayOfWeek.MONDAY).atStartOfDay();
+        LocalDateTime endDate = startDate.plusDays(7);
+    
+        return orderDateTimeGenerator.getOrderDailyResponse(startDate, endDate, request.getDate());
+  }
+}
+```
+
 ---
 
 ## 📘 시퀀스 다이어그램 (UML)

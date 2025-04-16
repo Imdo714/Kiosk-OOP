@@ -16,9 +16,7 @@
 - [N+1 쿼리 문제 개선](experience/JOIN%20FETCH.md)
 
 ---
-## 📘 클래스 다이어그램 (UML)
-> 이 UML은 키오스크 시스템의 주요 클래스 구조를 나타냈습니다.
+## 📘 ERD
+> 공부하면서 기능이 추가 되어 ERD 변경이 자주 일어납니다.
 
-![Image](https://github.com/user-attachments/assets/d991dad1-9d81-44a3-bec5-edf4c93b6fe1)
-![Image](https://github.com/user-attachments/assets/306ec177-cf9e-4cfe-b697-2275d2565f25)
 ![Image](https://github.com/user-attachments/assets/7830e69e-fc46-457a-a4d5-208fb43a1a3e)
