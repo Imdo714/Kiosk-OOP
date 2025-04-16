@@ -27,7 +27,7 @@
 ![Image](https://github.com/user-attachments/assets/ff5c1f4a-58db-4644-b8b1-1622be5692f8)
 
 ---
-## 💊 2차 구조 문제
+## 🔍 2차 구조 문제
 - `OrderService`(주문 생성) 와 `OrderQueryService`(주문 조회) 를 잘 분리 함 즉, SRP를 잘 지킴
 - 인터페이스로 추상화 잘 지킴 기존 `OrderQueryService`를 보면 동일한 관심사를 가짐
 - 하지만 조회 조건이 다양해져서 여러 메서드가 추가 된다면 `OrderQueryService`에 조회 메서드를 계속 넣으면 **거대 인터페이스**가 될 위혐이 생김
@@ -42,7 +42,7 @@ public interface OrderQueryService {
 ```
 
 ---
-## 🍻 2차 구조 개선
+## 💊 2차 구조 개선
 
 - 아직은 괜찮지만, 미래 확장성을 고려했을 때는 OrderQueryService가 너무 많은 조회 책임을 갖게 되지 않도록 인터페이스 분리
 - 즉, 월간 인터페이스, 주간 인터페이스, 일일 인터페이스, 시간별 인터페이스로 나눔
@@ -65,10 +65,10 @@ public interface MonthlyOrderQueryService {
 }
 ```
 
-## 구현체 코드
+## 🧠 구현체 코드
 
 - 서비스 단에서 복잡한 날짜 로직 분리 즉,
-- 날짜 계산은 전부 서비스 단에서 끝내고, OrderDateTimeGenerator는 가공된 날짜만 받아서 처리.
+- 날짜 계산은 전부 서비스 단에서 끝내고, `OrderDateTimeGenerator`는 가공된 날짜만 받아서 처리.
 - 이제 분기 조회 같은 날짜 조회 기능 추가 시 코드 수정 없이 분기 인터페이스 생성해서 구현체 하나만 생성하면 된다.
 
 ```java
@@ -105,6 +105,71 @@ public class WeeklyOrderQueryServiceImpl implements WeeklyOrderQueryService {
 > 확장성을 고려해 책임 분리 하였습니다.
 
 ![Image](https://github.com/user-attachments/assets/2c6d388a-1e42-4a20-b5d1-eba17bed1e4d)
+
+---
+
+## 📢 3차 개선 증복이 많음
+
+- 구현체 서비스 들을 보면 날짜 계산 후 `OrderDateTimeGenerator`를 호출하는 증복 코드가 발생
+- **OOP(객체지향)** 을 살리기 위해, 변하지 않는 공통 로직은 추상 클래스에, 변화되는 날짜 계산 로직은 하위 클래스에서 오버라이딩 하도록 구조 개선.
+- `orderDateTimeGenerator` 호출은 공통 로직이므로 추상 클래스에 위치
+- 각 서비스 구현체에서는 날짜 계산에만 집중할 수 있도록 분리함
+
+```java
+public abstract class AbstractOrderQueryService {
+
+    protected final OrderDateTimeGenerator orderDateTimeGenerator;
+
+    protected AbstractOrderQueryService(OrderDateTimeGenerator orderDateTimeGenerator) {
+        this.orderDateTimeGenerator = orderDateTimeGenerator;
+    }
+
+    protected abstract LocalDateTime getStartDateTime(LocalDate date);
+    protected abstract LocalDateTime getEndDateTime(LocalDate date);
+
+    // 기존 OrderDateTimeGenerator 호출 공통 처리 로직
+    protected OrderDateTotalResponse getOrderResponse(OrderDateRequest request) {
+        LocalDateTime start = getStartDateTime(request.getDate());
+        LocalDateTime end = getEndDateTime(request.getDate());
+
+        return orderDateTimeGenerator.getOrderDailyResponse(start, end, request.getDate());
+    }
+}
+```
+
+##	📆 구현체에서 날짜 계산 오버라이딩
+
+- `AbstractOrderQueryService` 추상 클래를 상속해서 날짜 계산 로직을 계산
+- `getDailyOrder` 메서드는 `DailyOrderQueryService` 인테페이스에서 받아 추상 클래스의 `getOrderResponse`메서드를 호출
+- 즉, 외부에서는 `getDailyOrder()`호출 하게 되면 내부적으로는 추상 클래스의 `getOrderResponse()` 공통 로직을 실행 
+  - 이 안에서 `getStartDateTime() / getEndDateTime()`을 호출해서 날짜 계산하고
+  - 계산된 날짜로 `OrderDateTimeGenerator`를 호출해서 응답을 만듭니다.
+
+```java
+public class DailyOrderQueryServiceImpl extends AbstractOrderQueryService implements DailyOrderQueryService{
+
+    protected DailyOrderQueryServiceImpl(OrderDateTimeGenerator orderDateTimeGenerator) {
+        super(orderDateTimeGenerator);
+    }
+
+    @Override
+    protected LocalDateTime getStartDateTime(LocalDate date) {
+        return date.atStartOfDay();
+    }
+
+    @Override
+    protected LocalDateTime getEndDateTime(LocalDate date) {
+        return date.plusDays(1).atStartOfDay();
+    }
+
+    @Override
+    public OrderDateTotalResponse getDailyOrder(OrderDateRequest request) {
+        return getOrderResponse(request);
+    }
+}
+```
+
+
 
 ---
 ## 📒 참고 자료

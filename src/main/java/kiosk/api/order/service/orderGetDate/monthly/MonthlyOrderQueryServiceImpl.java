@@ -3,30 +3,34 @@ package kiosk.api.order.service.orderGetDate.monthly;
 import jakarta.validation.Valid;
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
+import kiosk.api.order.service.AbstractOrderQueryService;
 import kiosk.api.order.service.orderGetDate.OrderDateTimeGenerator;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.YearMonth;
 
 @Slf4j
-@RequiredArgsConstructor
 @Service
-public class MonthlyOrderQueryServiceImpl implements MonthlyOrderQueryService{
+public class MonthlyOrderQueryServiceImpl extends AbstractOrderQueryService implements MonthlyOrderQueryService{
 
-    private final OrderDateTimeGenerator orderDateTimeGenerator;
+    protected MonthlyOrderQueryServiceImpl(OrderDateTimeGenerator orderDateTimeGenerator) {
+        super(orderDateTimeGenerator);
+    }
+
+    @Override
+    protected LocalDateTime getStartDateTime(LocalDate date) {
+        return date.withDayOfMonth(1).atStartOfDay();
+    }
+
+    @Override
+    protected LocalDateTime getEndDateTime(LocalDate date) {
+        return date.plusMonths(1).withDayOfMonth(1).atStartOfDay();
+    }
 
     @Override
     public OrderDateTotalResponse getMonthlyOrder(OrderDateRequest request) {
-        YearMonth month = YearMonth.from(request.getDate());
-        LocalDateTime start = month.atDay(1).atStartOfDay();
-        LocalDateTime end = month.plusMonths(1).atDay(1).atStartOfDay();
-
-        log.info("start = {}", start);
-        log.info("end = {}", end);
-
-        return orderDateTimeGenerator.getOrderDailyResponse(start, end, request.getDate());
+        return getOrderResponse(request);
     }
 }
