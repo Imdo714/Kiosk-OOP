@@ -4,9 +4,9 @@ values ('아메리카노', 1800, 'HANDMADE', 'SELLING'),
        ('아이스티', 1500, 'HANDMADE', 'SELLING');
 
 insert into order_entity(order_price, order_quantity, order_date)
-values (4500, 3, '2015-04-13'),
-       (8000, 4, '2015-04-13'),
-       (1800, 1, '2015-04-13');
+values (4500, 3, '2025-04-13'),
+       (8000, 4, '2025-04-13'),
+       (1800, 1, '2025-04-13');
 
 insert into order_detail_entity(ORDER_ID, MENU_ID, ORDER_DETAIL_QUANTITY)
 values (1, 3, 3),

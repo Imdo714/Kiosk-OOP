@@ -21,9 +21,58 @@
 - 테스트 용도 Mock 등으로 유연하게 확장 가능
 
 ---
-
 ## 📘 시퀀스 다이어그램 (UML)
-> 이 UML은 키오스크 시스템의 주문 클래스 구조를 나타냈습니다.
+> 1차 구조 개선 시퀀스 다이어그램입니다. 확장성을 고려하지 않음
 
 ![Image](https://github.com/user-attachments/assets/ff5c1f4a-58db-4644-b8b1-1622be5692f8)
-![Image](https://github.com/user-attachments/assets/7830e69e-fc46-457a-a4d5-208fb43a1a3e)
+
+---
+## 💊 2차 구조 문제
+- `OrderService`(주문 생성) 와 `OrderQueryService`(주문 조회) 를 잘 분리 함 즉, SRP를 잘 지킴
+- 인터페이스로 추상화 잘 지킴 기존 `OrderQueryService`를 보면 동일한 관심사를 가짐
+- 하지만 조회 조건이 다양해져서 여러 메서드가 추가 된다면 `OrderQueryService`에 조회 메서드를 계속 넣으면 **거대 인터페이스**가 될 위혐이 생김
+```java
+public interface OrderQueryService {
+    // OrderQueryService 는 날짜 기반 조회라는 관심사를 가짐 즉, 추상화가 같음
+    // 일일 조회
+    OrderDateTotalResponse getDailyOrder(OrderDateRequest request);
+    // 시간 대 별 조회
+    OrderDateTotalResponse getDailyTimeOrder(OrderDateTimeRangeRequest request);
+}
+```
+
+---
+## 🍻 2차 구조 개선
+
+- 아직은 괜찮지만, 미래 확장성을 고려했을 때는 OrderQueryService가 너무 많은 조회 책임을 갖게 되지 않도록 인터페이스 분리
+- 즉, 월간 인터페이스, 주간 인터페이스, 일일 인터페이스, 시간별 인터페이스로 나눔
+- 이제 분기 조회 기능 추가 시 코드 수정 없이 분기 인터페이스 생성해서 구현체 하나만 생성하면 된다.
+```java
+public interface DailyOrderQueryService { 
+    // 일일 조회
+    OrderDateTotalResponse getDailyOrder(OrderDateRequest request);
+}
+public interface TimeOrderQueryService {
+    // 시간 대 별 조회
+    OrderDateTotalResponse getDailyTimeOrder(OrderDateTimeRangeRequest request);
+}
+public interface WeeklyOrderQueryService {
+    // 주간 조회
+    OrderDateTotalResponse getWeeklyOrder(OrderDateRequest request);
+}
+public interface MonthlyOrderQueryService {
+    // 월간 조회
+    OrderDateTotalResponse getMonthlyOrder(OrderDateRequest request);
+}
+```
+---
+
+## 📘 시퀀스 다이어그램 (UML)
+> 확장성을 고려해 책임 분리 하였습니다.
+
+![Image](https://github.com/user-attachments/assets/2c6d388a-1e42-4a20-b5d1-eba17bed1e4d)
+
+---
+## 📒 참고 자료
+- https://www.baeldung.com/java-interface-segregation
+- https://stackify.com/interface-segregation-principle/

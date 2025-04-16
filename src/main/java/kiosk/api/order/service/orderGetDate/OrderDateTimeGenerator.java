@@ -15,11 +15,10 @@ import java.util.List;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class OrderDateTimeGenerator implements OrderGetDateTimeGenerator {
+public class OrderDateTimeGenerator  {
 
     private final OrderRepository orderRepository;
 
-    @Override
     public OrderDateTotalResponse getOrderDailyResponse(LocalDateTime start, LocalDateTime end, LocalDate request) {
         List<OrderDTO> order = orderRepository.findDailyOrder(start, end);
         OrderSummary orderSummary = OrderSummary.calculateTotal(order);

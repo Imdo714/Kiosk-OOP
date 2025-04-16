@@ -6,7 +6,7 @@ import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.menu.domain.common.MenuStatus;
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
-import kiosk.api.order.service.orderGetDate.OrderQueryService;
+import kiosk.api.order.service.orderGetDate.daily.DailyOrderQueryService;
 import kiosk.global.exception.handleException.MenuNotFoundException;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.request.OrderDetailRequest;
@@ -34,7 +34,7 @@ class OrderServiceImplTest {
     @Autowired
     private OrderServiceImpl orderServiceImpl;
     @Autowired
-    private OrderQueryService orderQueryService;
+    private DailyOrderQueryService dailyOrderQueryService;
     @Autowired
     private MenuRepository menuRepository;
 
@@ -181,7 +181,7 @@ class OrderServiceImplTest {
                 .build();
 
         // when
-        OrderDateTotalResponse dailyOrder = orderQueryService.getDailyOrder(dateRequest);
+        OrderDateTotalResponse dailyOrder = dailyOrderQueryService.getDailyOrder(dateRequest);
 
         // then
         assertThat(dailyOrder).isNotNull();
