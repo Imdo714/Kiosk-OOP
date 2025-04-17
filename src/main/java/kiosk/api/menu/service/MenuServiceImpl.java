@@ -54,7 +54,8 @@ public class MenuServiceImpl implements MenuService{
 
     @Override
     public MenuEntity findByIdWithDiscount(Long menuId) {
-        return menuRepository.findByIdWithDiscount(menuId);
+        return menuRepository.findByIdWithDiscount(menuId)
+                .orElseThrow(() -> new MenuNotFoundException("메뉴를 찾을 수 없습니다."));
     }
 
 

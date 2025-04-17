@@ -6,10 +6,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface MenuRepository extends JpaRepository<MenuEntity, Long>, MenuQueryDsl {
 
     @Query("SELECT m FROM MenuEntity m LEFT JOIN FETCH m.discountEntity d WHERE m.menuId = :menuId")
-    MenuEntity findByIdWithDiscount(@Param("menuId") Long menuId);
+    Optional<MenuEntity> findByIdWithDiscount(@Param("menuId") Long menuId);
 
 }

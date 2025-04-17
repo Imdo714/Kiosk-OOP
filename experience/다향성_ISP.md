@@ -21,7 +21,7 @@
 - 테스트 용도 Mock 등으로 유연하게 확장 가능
 
 ---
-## 📘 시퀀스 다이어그램 (UML)
+## 📘 1차 시퀀스 다이어그램 (UML)
 > 1차 구조 개선 시퀀스 다이어그램입니다. 확장성을 고려하지 않음
 
 ![Image](https://github.com/user-attachments/assets/ff5c1f4a-58db-4644-b8b1-1622be5692f8)
@@ -101,10 +101,10 @@ public class WeeklyOrderQueryServiceImpl implements WeeklyOrderQueryService {
 
 ---
 
-## 📘 시퀀스 다이어그램 (UML)
+## 📘 2차 시퀀스 다이어그램 (UML)
 > 확장성을 고려해 책임 분리 하였습니다.
 
-![Image](https://github.com/user-attachments/assets/2c6d388a-1e42-4a20-b5d1-eba17bed1e4d)
+![Image](https://github.com/user-attachments/assets/c40a3d78-7e9b-42c7-ba06-fc349a3e09cc)
 
 ---
 
@@ -169,7 +169,10 @@ public class DailyOrderQueryServiceImpl extends AbstractOrderQueryService implem
 }
 ```
 
+## 📘 3차 시퀀스 다이어그램 (UML)
+> 증복 코드를 제거하기 위해 추상 클래스를 사용하였습니다.
 
+![Image](https://github.com/user-attachments/assets/751a16ba-feec-4542-9065-4a73093f684d)
 
 ---
 ## 📒 참고 자료

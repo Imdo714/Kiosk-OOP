@@ -44,6 +44,7 @@ public class MenuEntity {
     private MenuStatus menuStatus;
 
     @OneToMany(mappedBy = "menuEntity", cascade = CascadeType.ALL)
+    @Builder.Default
     private List<DiscountEntity> discountEntity = new ArrayList<>();
 
     public void updateMenuPrice(Integer newPrice) {
@@ -65,6 +66,10 @@ public class MenuEntity {
     }
 
     public int getDiscountedPrice(){
+        if (discountEntity == null || discountEntity.isEmpty()) {
+            return this.menuPrice;
+        }
+
         return discountEntity.stream()
                 .filter(d -> d.isValidNow())
                 .findFirst()
