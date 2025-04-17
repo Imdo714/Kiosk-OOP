@@ -2,7 +2,7 @@ package kiosk.api.order.service;
 
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
-import kiosk.api.order.service.orderGetDate.OrderDateTimeGenerator;
+import kiosk.api.order.service.orderQueryDate.OrderDateTimeGenerator;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

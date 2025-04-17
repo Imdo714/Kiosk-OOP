@@ -6,7 +6,7 @@ import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.menu.domain.common.MenuStatus;
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
-import kiosk.api.order.service.orderGetDate.daily.DailyOrderQueryService;
+import kiosk.api.order.service.orderQueryDate.daily.DailyOrderQueryService;
 import kiosk.global.exception.handleException.MenuNotFoundException;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.request.OrderDetailRequest;
@@ -196,7 +196,7 @@ class OrderServiceImplTest {
                 .build();
     }
 
-    public MenuEntity createMenu(String menuName, int menuPrice, MenuCategory menuCategory, MenuStatus menuStatus) {
+    private MenuEntity createMenu(String menuName, int menuPrice, MenuCategory menuCategory, MenuStatus menuStatus) {
         return MenuEntity.builder()
                 .menuName(menuName)
                 .menuPrice(menuPrice)

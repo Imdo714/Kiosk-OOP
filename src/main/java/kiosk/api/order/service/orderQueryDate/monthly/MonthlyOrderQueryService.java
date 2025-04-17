@@ -1,6 +1,5 @@
-package kiosk.api.order.service.orderGetDate.monthly;
+package kiosk.api.order.service.orderQueryDate.monthly;
 
-import jakarta.validation.Valid;
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 

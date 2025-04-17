@@ -1,36 +1,33 @@
-package kiosk.api.order.service.orderGetDate.weekly;
+package kiosk.api.order.service.orderQueryDate.daily;
 
 import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.service.AbstractOrderQueryService;
-import kiosk.api.order.service.orderGetDate.OrderDateTimeGenerator;
-import lombok.extern.slf4j.Slf4j;
+import kiosk.api.order.service.orderQueryDate.OrderDateTimeGenerator;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Slf4j
 @Service
-public class WeeklyOrderQueryServiceImpl extends AbstractOrderQueryService implements WeeklyOrderQueryService {
+public class DailyOrderQueryServiceImpl extends AbstractOrderQueryService implements DailyOrderQueryService{
 
-    protected WeeklyOrderQueryServiceImpl(OrderDateTimeGenerator orderDateTimeGenerator) {
+    protected DailyOrderQueryServiceImpl(OrderDateTimeGenerator orderDateTimeGenerator) {
         super(orderDateTimeGenerator);
     }
 
     @Override
     protected LocalDateTime getStartDateTime(LocalDate date) {
-        return date.with(DayOfWeek.MONDAY).atStartOfDay();
+        return date.atStartOfDay();
     }
 
     @Override
     protected LocalDateTime getEndDateTime(LocalDate date) {
-        return getStartDateTime(date).plusDays(7);
+        return date.plusDays(1).atStartOfDay();
     }
 
     @Override
-    public OrderDateTotalResponse getWeeklyOrder(OrderDateRequest request) {
+    public OrderDateTotalResponse getDailyOrder(OrderDateRequest request) {
         return getOrderResponse(request);
     }
 }

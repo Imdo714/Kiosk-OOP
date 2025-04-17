@@ -8,10 +8,10 @@ import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateTimeRangeRequ
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.domain.dto.response.OrderResponse;
 import kiosk.api.order.service.OrderService;
-import kiosk.api.order.service.orderGetDate.daily.DailyOrderQueryService;
-import kiosk.api.order.service.orderGetDate.monthly.MonthlyOrderQueryService;
-import kiosk.api.order.service.orderGetDate.time.TimeOrderQueryService;
-import kiosk.api.order.service.orderGetDate.weekly.WeeklyOrderQueryService;
+import kiosk.api.order.service.orderQueryDate.daily.DailyOrderQueryService;
+import kiosk.api.order.service.orderQueryDate.monthly.MonthlyOrderQueryService;
+import kiosk.api.order.service.orderQueryDate.time.TimeOrderQueryService;
+import kiosk.api.order.service.orderQueryDate.weekly.WeeklyOrderQueryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

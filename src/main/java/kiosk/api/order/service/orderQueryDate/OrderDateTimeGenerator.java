@@ -1,4 +1,4 @@
-package kiosk.api.order.service.orderGetDate;
+package kiosk.api.order.service.orderQueryDate;
 
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.domain.internal.OrderDTO;
