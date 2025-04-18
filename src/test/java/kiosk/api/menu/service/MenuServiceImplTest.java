@@ -8,6 +8,9 @@ import kiosk.api.menu.domain.common.MenuStatus;
 import kiosk.api.menu.domain.dto.request.MenuCreateRequest;
 import kiosk.api.menu.domain.dto.request.MenuUpdate;
 import kiosk.api.menu.domain.dto.response.MenuResponse;
+import kiosk.api.menu.service.menuCommand.menuCrate.MenuCreateService;
+import kiosk.api.menu.service.menuCommand.menuUpdate.MenuUpdateService;
+import kiosk.api.menu.service.menuQuery.menuListQuery.MenuListQuery;
 import kiosk.global.exception.handleException.validEnumTypeException;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
@@ -32,7 +35,11 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class MenuServiceImplTest {
 
     @Autowired
-    private MenuServiceImpl menuServiceImpl;
+    private MenuCreateService menuCreateService;
+    @Autowired
+    private MenuUpdateService menuUpdateService;
+    @Autowired
+    private MenuListQuery menuListQuery;
 
     @Autowired
     private MenuRepository menuRepository;
@@ -49,7 +56,7 @@ class MenuServiceImplTest {
                 .build();
 
         // when
-        MenuResponse menu = menuServiceImpl.createMenu(request);
+        MenuResponse menu = menuCreateService.createMenu(request);
 
         // then
         assertThat(menu)
@@ -70,7 +77,7 @@ class MenuServiceImplTest {
                 .build();
 
         // when
-        MenuResponse menuResponse = menuServiceImpl.updateMenu(menu.getMenuId(), menuUpdate);
+        MenuResponse menuResponse = menuUpdateService.updateMenu(menu.getMenuId(), menuUpdate);
 
         // then
         assertThat(menu)
@@ -94,7 +101,7 @@ class MenuServiceImplTest {
         createMenuInitial();
 
         // when
-        MenuListResponse dslAll = menuServiceImpl.selectMenu(null, null, null);
+        MenuListResponse dslAll = menuListQuery.listQueryMenu(null, null, null);
 
         // then
         assertThat(dslAll.getMenuEntityList()).hasSize(2)
@@ -112,7 +119,7 @@ class MenuServiceImplTest {
         createMenuInitial();
 
         // when
-        MenuListResponse dslAll = menuServiceImpl.selectMenu("HANDMADE", null, null);
+        MenuListResponse dslAll = menuListQuery.listQueryMenu("HANDMADE", null, null);
 
         // then
         assertThat(dslAll.getMenuEntityList()).hasSize(1)
@@ -129,7 +136,7 @@ class MenuServiceImplTest {
         createMenuInitial();
 
         // when
-        MenuListResponse dslAll = menuServiceImpl.selectMenu(null, "아메리카노", null);
+        MenuListResponse dslAll = menuListQuery.listQueryMenu(null, "아메리카노", null);
 
         // then
         assertThat(dslAll.getMenuEntityList()).hasSize(1)
@@ -146,7 +153,7 @@ class MenuServiceImplTest {
         createMenuInitial();
 
         // when
-        MenuListResponse dslAll = menuServiceImpl.selectMenu(null, null, "SELLING");
+        MenuListResponse dslAll = menuListQuery.listQueryMenu(null, null, "SELLING");
 
         // then
         assertThat(dslAll.getMenuEntityList()).hasSize(2)
@@ -164,7 +171,7 @@ class MenuServiceImplTest {
         createMenuInitial();
 
         // when // then
-        assertThatThrownBy(() -> menuServiceImpl.selectMenu("NOT_CATEGORY", null, null))
+        assertThatThrownBy(() -> menuListQuery.listQueryMenu("NOT_CATEGORY", null, null))
                 .isInstanceOf(validEnumTypeException.class)
                 .hasMessage("존재하지 않는 카테고리입니다.");
     }
@@ -176,7 +183,7 @@ class MenuServiceImplTest {
         createMenuInitial();
 
         // when // then
-        assertThatThrownBy(() -> menuServiceImpl.selectMenu(null, null, "NOT_STATUS"))
+        assertThatThrownBy(() -> menuListQuery.listQueryMenu(null, null, "NOT_STATUS"))
                 .isInstanceOf(validEnumTypeException.class)
                 .hasMessage("존재하지 않는 상태 값입니다.");
     }

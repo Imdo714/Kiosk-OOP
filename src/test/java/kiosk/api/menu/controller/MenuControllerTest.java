@@ -4,11 +4,16 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kiosk.api.menu.domain.dto.request.MenuCreateRequest;
 import kiosk.api.menu.domain.dto.request.MenuUpdate;
 import kiosk.api.menu.domain.dto.response.MenuResponse;
+import kiosk.api.menu.service.MenuService;
 import kiosk.api.menu.service.MenuServiceImpl;
+import kiosk.api.menu.service.menuCommand.menuCrate.MenuCreateService;
+import kiosk.api.menu.service.menuCommand.menuUpdate.MenuUpdateService;
+import kiosk.api.menu.service.menuQuery.menuListQuery.MenuListQuery;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -33,7 +38,16 @@ class MenuControllerTest {
     private ObjectMapper objectMapper;
 
     @MockitoBean
-    private MenuServiceImpl menuServiceImpl;
+    private MenuService menuService;
+
+    @MockitoBean
+    private MenuCreateService menuCreateService;
+
+    @MockitoBean
+    private MenuUpdateService menuUpdateService;
+
+    @MockitoBean
+    private MenuListQuery menuListQuery;
 
     @DisplayName("새로운 매뉴 등록 성공 결과 값")
     @Test
@@ -97,7 +111,7 @@ class MenuControllerTest {
                 .menuStatus(STOP_SELLING)
                 .build();
 
-        when(menuServiceImpl.updateMenu(menuId, menuUpdate)).thenReturn(expectedResponse);
+        when(menuUpdateService.updateMenu(menuId, menuUpdate)).thenReturn(expectedResponse);
 
         // when & then
         mockMvc.perform(patch("/menu/{menuId}", menuId)

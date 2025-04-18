@@ -8,13 +8,7 @@ import kiosk.api.menu.domain.dto.response.MenuResponse;
 
 public interface MenuService {
 
-    MenuResponse createMenu(MenuCreateRequest request);
-
-    MenuResponse updateMenu(Long menuId, MenuUpdate request);
-
     MenuEntity findById(Long menuId);
-
-    MenuListResponse selectMenu(String category, String name, String status);
 
     MenuEntity findByIdWithDiscount(Long menuId);
 }

@@ -1,4 +1,4 @@
-package kiosk.api.menu.repository;
+package kiosk.api.menu.repository.queryDsl;
 
 import kiosk.api.menu.domain.entity.MenuEntity;
 

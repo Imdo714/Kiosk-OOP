@@ -1,4 +1,4 @@
-package kiosk.api.menu.repository;
+package kiosk.api.menu.repository.queryDsl;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;

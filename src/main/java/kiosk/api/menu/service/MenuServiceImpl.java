@@ -23,33 +23,9 @@ public class MenuServiceImpl implements MenuService{
     private final MenuRepository menuRepository;
 
     @Override
-    public MenuResponse createMenu(MenuCreateRequest request) {
-        MenuEntity menu = request.toEntity();
-        MenuEntity savedMenu = menuRepository.save(menu);
-
-        return MenuResponse.of(savedMenu);
-    }
-
-    @Override
-    @Transactional
-    public MenuResponse updateMenu(Long menuId, MenuUpdate request) {
-        MenuEntity menu = findById(menuId);
-        request.applyTo(menu);
-
-        return MenuResponse.of(menu);
-    }
-
-    @Override
     public MenuEntity findById(Long menuId) {
         return menuRepository.findById(menuId)
                 .orElseThrow(() -> new MenuNotFoundException("메뉴를 찾을 수 없습니다."));
-    }
-
-    @Override
-    public MenuListResponse selectMenu(String category, String name, String status) {
-        List<MenuEntity> dslAll = menuRepository.selectMenu(category, name, status);
-
-        return MenuListResponse.arr(dslAll);
     }
 
     @Override
