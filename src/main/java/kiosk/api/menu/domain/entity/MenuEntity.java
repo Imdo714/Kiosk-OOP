@@ -85,16 +85,6 @@ public class MenuEntity {
 //                        (p1, p2) -> p2); // 병렬 병합 방식 그냥 마지막 p2를 사용하겠다 의미
     }
 
-    public String getDiscounName() {
-        if (discountEntity == null || discountEntity.isEmpty()) {
-            return null;
-        }
-        return discountEntity.stream()
-                .map(DiscountEntity::getDiscountCode)
-                .findFirst()
-                .orElse(null);
-    }
-
     public Optional<DiscountEntity> getActiveDiscount() { // 현재 시간이 유효한 할인 중 하나만 추출해서 반환
         LocalDateTime now = LocalDateTime.now();
         return discountEntity.stream()

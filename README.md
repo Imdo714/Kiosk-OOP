@@ -12,6 +12,7 @@
 ---
 ## 🔧 *개선 사항*
 
+- [기능 종류 및 설명](experience/기능설명.md)
 - [다양성_ISP 개선](experience/다향성_ISP.md)
 - [N+1 쿼리 문제 개선](experience/JOIN%20FETCH.md)
 
@@ -19,4 +20,4 @@
 ## 📘 ERD
 > 공부하면서 기능이 추가 되어 ERD 변경이 자주 일어납니다.
 
-![Image](https://github.com/user-attachments/assets/7830e69e-fc46-457a-a4d5-208fb43a1a3e)
+![Image](https://github.com/user-attachments/assets/3ec4c058-0cfa-4a12-bb2a-0a06511e4cee)

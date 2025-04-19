@@ -1,6 +1,7 @@
 package kiosk.api.menu.service.menuQuery.menuListQuery;
 
 import kiosk.api.menu.domain.dto.response.MenuListResponse;
+import kiosk.api.menu.domain.dto.response.MenuResponse;
 import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.repository.MenuRepository;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +17,7 @@ public class MenuListQueryImpl implements MenuListQuery{
 
     @Override
     public MenuListResponse listQueryMenu(String category, String name, String status) {
-        List<MenuEntity> dslAll = menuRepository.selectMenu(category, name, status);
+        List<MenuResponse> dslAll = menuRepository.selectMenu(category, name, status);
 
         return MenuListResponse.arr(dslAll);
     }

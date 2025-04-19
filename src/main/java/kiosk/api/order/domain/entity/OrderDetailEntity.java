@@ -29,6 +29,7 @@ public class OrderDetailEntity {
     @Column(name = "order_detail_price")
     private int orderDetailPrice;
 
+    @Column(name = "order_detail_discount_id")
     private Long discountId;
 
     @ManyToOne(fetch = FetchType.LAZY)

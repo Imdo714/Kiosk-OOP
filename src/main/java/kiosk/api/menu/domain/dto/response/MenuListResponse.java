@@ -13,22 +13,21 @@ import java.util.stream.Collectors;
 @Builder
 public class MenuListResponse {
 
-    private List<MenuEntity> menuEntityList;
+    private List<MenuResponse> menuEntityList;
 
-    public static MenuListResponse arr(List<MenuEntity> dslAll){
+    public static MenuListResponse arr(List<MenuResponse> dslAll){
         return MenuListResponse.builder()
                 .menuEntityList(dslAll.stream()
-                    .map(menu -> MenuEntity.builder()
-                        .menuId(menu.getMenuId())
-                        .menuName(menu.getMenuName())
-                        .menuPrice(menu.getMenuPrice())
-                        .menuCategory(menu.getMenuCategory())
-                        .menuStatus(menu.getMenuStatus())
-                        .build()
-                    )
-                    .collect(Collectors.toList())
+                        .map(menu -> MenuResponse.builder()
+                                .menuId(menu.getMenuId())
+                                .menuName(menu.getMenuName())
+                                .menuPrice(menu.getMenuPrice())
+                                .menuCategory(menu.getMenuCategory())
+                                .menuStatus(menu.getMenuStatus())
+                                .build()
+                        )
+                        .collect(Collectors.toList())
                 )
                 .build();
     }
-
 }
