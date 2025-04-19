@@ -10,6 +10,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -22,7 +25,6 @@ public class OrderFactory {
 
         for (OrderDetailRequest detail : request.getOrderDetails()) {
             MenuEntity menu = menuService.findByIdWithDiscount(detail.getMenuId());
-
             menu.getOrderValid();
 
             order.addOrderDetail(menu, detail.getOrderQuantity());
@@ -30,6 +32,5 @@ public class OrderFactory {
 
         return order;
     }
-
 
 }

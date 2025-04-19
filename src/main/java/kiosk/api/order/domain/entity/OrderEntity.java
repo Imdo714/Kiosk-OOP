@@ -15,6 +15,7 @@ import java.util.List;
 @ToString
 @Builder
 @Getter
+@Setter
 @Slf4j
 @Entity
 public class OrderEntity {
@@ -33,7 +34,7 @@ public class OrderEntity {
     @Column(name = "order_date")
     private LocalDateTime orderDate;
 
-    @OneToMany(mappedBy = "orderEntity")
+    @OneToMany(mappedBy = "orderEntity", cascade = CascadeType.ALL)
     @Builder.Default
     private List<OrderDetailEntity> orderDetails = new ArrayList<>();
 
@@ -66,10 +67,13 @@ public class OrderEntity {
         checkQuantity(quantity);
 
         int discountedPrice = menu.getDiscountedPrice();
+        Long discountId = menu.getDiscounId();
 
         OrderDetailEntity detail = OrderDetailEntity.builder()
-                .orderEntity(this)
+                .orderEntity(this) // 양뱡향 설정
                 .menuEntity(menu)
+                .discountId(discountId)
+                .orderDetailPrice(discountedPrice)
                 .orderDetailQuantity(quantity)
                 .build();
 

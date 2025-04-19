@@ -7,12 +7,13 @@ import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Getter
-@Slf4j
 @ToString
 @Entity
 public class DiscountEntity {
@@ -40,7 +41,7 @@ public class DiscountEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_id")
-    @ToString.Exclude // ToString 무한 재귀호출 방지 양쪽에 ToString어노테이션 사용했으면 똑같이 양쪽 필드에 @ToString.Exclude 사용하면 됨
+    @ToString.Exclude
     private MenuEntity menuEntity;
 
     public boolean isValidNow() {

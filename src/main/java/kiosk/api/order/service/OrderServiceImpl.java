@@ -1,5 +1,6 @@
 package kiosk.api.order.service;
 
+import kiosk.api.menu.service.MenuService;
 import kiosk.api.order.repository.OrderDetailRepository;
 import kiosk.api.order.domain.entity.OrderEntity;
 import kiosk.api.order.repository.OrderRepository;
@@ -31,6 +32,5 @@ public class OrderServiceImpl implements OrderService{
 
         return OrderResponse.of(order, order.getOrderDetails());
     }
-
 
 }

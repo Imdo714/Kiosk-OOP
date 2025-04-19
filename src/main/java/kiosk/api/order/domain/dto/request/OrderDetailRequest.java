@@ -1,5 +1,6 @@
 package kiosk.api.order.domain.dto.request;
 
+import kiosk.api.order.domain.entity.OrderDetailEntity;
 import lombok.*;
 
 @ToString
