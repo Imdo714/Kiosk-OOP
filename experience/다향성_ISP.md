@@ -178,3 +178,6 @@ public class DailyOrderQueryServiceImpl extends AbstractOrderQueryService implem
 ## 📒 참고 자료
 - https://www.baeldung.com/java-interface-segregation
 - https://stackify.com/interface-segregation-principle/
+
+## 최종 Class Diagram
+![Image](https://github.com/user-attachments/assets/d9490997-5e88-4aa1-8f76-de8a550b894c)
