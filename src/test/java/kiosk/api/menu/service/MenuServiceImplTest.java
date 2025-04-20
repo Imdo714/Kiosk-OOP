@@ -1,5 +1,8 @@
 package kiosk.api.menu.service;
 
+import kiosk.api.discount.domain.common.DiscountType;
+import kiosk.api.discount.domain.entity.DiscountEntity;
+import kiosk.api.discount.repository.DiscountRepository;
 import kiosk.api.menu.domain.common.MenuCategory;
 import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.domain.dto.response.MenuListResponse;
@@ -11,6 +14,7 @@ import kiosk.api.menu.domain.dto.response.MenuResponse;
 import kiosk.api.menu.service.menuCommand.menuCrate.MenuCreateService;
 import kiosk.api.menu.service.menuCommand.menuUpdate.MenuUpdateService;
 import kiosk.api.menu.service.menuQuery.menuListQuery.MenuListQuery;
+import kiosk.global.exception.handleException.MenuNotFoundException;
 import kiosk.global.exception.handleException.validEnumTypeException;
 import org.assertj.core.groups.Tuple;
 import org.junit.jupiter.api.DisplayName;
@@ -20,6 +24,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static kiosk.api.menu.domain.common.MenuCategory.BOTTLE;
@@ -35,54 +40,67 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 class MenuServiceImplTest {
 
     @Autowired
-    private MenuCreateService menuCreateService;
-    @Autowired
-    private MenuUpdateService menuUpdateService;
-    @Autowired
-    private MenuListQuery menuListQuery;
-
-    @Autowired
     private MenuRepository menuRepository;
+    @Autowired
+    private MenuServiceImpl menuService;
+    @Autowired
+    private DiscountRepository discountRepository;
 
-    @DisplayName("메뉴 등록 결과 값")
+    @DisplayName("MenuId로 메뉴 조회")
     @Test
-    void createMenu() {
+    void findById() {
         // given
-        MenuCreateRequest request = MenuCreateRequest.builder()
-                .menuName("아메리카노")
-                .menuPrice(1000)
-                .menuCategory(HANDMADE)
-                .menuStatus(SELLING)
-                .build();
+        MenuEntity menu1 = createMenu("아메리카노", 1000, HANDMADE, SELLING);
+        menuRepository.save(menu1);
 
         // when
-        MenuResponse menu = menuCreateService.createMenu(request);
+        MenuEntity byId = menuService.findById(menu1.getMenuId());
 
         // then
-        assertThat(menu)
-                .extracting("menuName", "menuPrice", "menuCategory", "menuStatus")
-                .containsExactlyInAnyOrder("아메리카노", 1000, HANDMADE, SELLING);
+        assertThat(byId).isNotNull();
+        assertThat(byId.getMenuPrice()).isEqualTo(1000);
+        assertThat(byId.getMenuCategory()).isEqualTo(HANDMADE);
+        assertThat(byId.getMenuStatus()).isEqualTo(SELLING);
     }
 
-    @DisplayName("메뉴 가격 상태값 수정 결과 값")
+    @DisplayName("MenuId로 메뉴 조회시 없는 MenuId일 시")
     @Test
-    void updateMenu() {
+    void findByIdWithNotId() {
+        // given
+
+        // when // then
+        assertThatThrownBy(() -> menuService.findById(100L)).isInstanceOf(MenuNotFoundException.class).hasMessage("메뉴를 찾을 수 없습니다.");
+    }
+
+    @DisplayName("MenuId로 할인 포함된 메뉴 조회")
+    @Test
+    void findByIdWithDiscount() {
         // given
         MenuEntity menu = createMenu("아메리카노", 1000, HANDMADE, SELLING);
-        menuRepository.save(menu);
 
-        MenuUpdate menuUpdate = MenuUpdate.builder()
-                .menuPrice(2000)
-                .menuStatus(STOP_SELLING)
+        DiscountEntity discount = DiscountEntity.builder()
+                .discountCode("DISC10")
+                .discountType(DiscountType.PERCENT)
+                .discountValue(10)
+                .discountStart(LocalDateTime.now().minusDays(1))
+                .discountEnd(LocalDateTime.now().plusDays(1))
+                .menuEntity(menu)
                 .build();
 
+        menu.getDiscountEntity().add(discount);
+        menuRepository.save(menu);
+
         // when
-        MenuResponse menuResponse = menuUpdateService.updateMenu(menu.getMenuId(), menuUpdate);
+        MenuEntity result = menuService.findByIdWithDiscount(menu.getMenuId());
 
         // then
-        assertThat(menu)
-                .extracting("menuPrice", "menuStatus")
-                .containsExactlyInAnyOrder(2000, STOP_SELLING);
+        assertThat(result).isNotNull();
+        assertThat(result.getMenuName()).isEqualTo("아메리카노");
+
+        List<DiscountEntity> discounts = result.getDiscountEntity();
+        assertThat(discounts).isNotEmpty();
+        assertThat(discounts.get(0).getDiscountCode()).isEqualTo("DISC10");
+        assertThat(discounts.get(0).getDiscountValue()).isEqualTo(10);
     }
 
     public MenuEntity createMenu(String menuName, int menuPrice, MenuCategory menuCategory, MenuStatus menuStatus) {
@@ -93,105 +111,4 @@ class MenuServiceImplTest {
                 .menuStatus(menuStatus)
                 .build();
     }
-
-    @DisplayName("전체 메뉴 조회")
-    @Test
-    void selectMenu() {
-        // given
-        createMenuInitial();
-
-        // when
-        MenuListResponse dslAll = menuListQuery.listQueryMenu(null, null, null);
-
-        // then
-        assertThat(dslAll.getMenuEntityList()).hasSize(2)
-                .extracting("menuName", "menuPrice", "menuCategory", "menuStatus")
-                .containsExactlyInAnyOrder(
-                        Tuple.tuple("아메리카노", 1000, HANDMADE, SELLING),
-                        Tuple.tuple("카푸치노", 1500, BOTTLE, SELLING)
-                );
-    }
-
-    @DisplayName("전체 메뉴 조회시 HANDMADE 카테고리 조건")
-    @Test
-    void selectMenuWhitCategory() {
-        // given
-        createMenuInitial();
-
-        // when
-        MenuListResponse dslAll = menuListQuery.listQueryMenu("HANDMADE", null, null);
-
-        // then
-        assertThat(dslAll.getMenuEntityList()).hasSize(1)
-                .extracting("menuName", "menuPrice", "menuCategory", "menuStatus")
-                .containsExactlyInAnyOrder(
-                        Tuple.tuple("아메리카노", 1000, HANDMADE, SELLING)
-                );
-    }
-
-    @DisplayName("전체 메뉴 조회시 이름 검색 조건")
-    @Test
-    void selectMenuWhitName() {
-        // given
-        createMenuInitial();
-
-        // when
-        MenuListResponse dslAll = menuListQuery.listQueryMenu(null, "아메리카노", null);
-
-        // then
-        assertThat(dslAll.getMenuEntityList()).hasSize(1)
-                .extracting("menuName", "menuPrice", "menuCategory", "menuStatus")
-                .containsExactlyInAnyOrder(
-                        Tuple.tuple("아메리카노", 1000, HANDMADE, SELLING)
-                );
-    }
-
-    @DisplayName("전체 메뉴 조회시 SELLING 상태값 조건")
-    @Test
-    void selectMenuWhitMenuStatus() {
-        // given
-        createMenuInitial();
-
-        // when
-        MenuListResponse dslAll = menuListQuery.listQueryMenu(null, null, "SELLING");
-
-        // then
-        assertThat(dslAll.getMenuEntityList()).hasSize(2)
-                .extracting("menuName", "menuPrice", "menuCategory", "menuStatus")
-                .containsExactlyInAnyOrder(
-                        Tuple.tuple("아메리카노", 1000, HANDMADE, SELLING),
-                        Tuple.tuple("카푸치노", 1500, BOTTLE, SELLING)
-                );
-    }
-
-    @DisplayName("전체 메뉴 조회시 없는 카테고리 조건시 예외")
-    @Test
-    void selectMenuWhitNotCategory() {
-        // given
-        createMenuInitial();
-
-        // when // then
-        assertThatThrownBy(() -> menuListQuery.listQueryMenu("NOT_CATEGORY", null, null))
-                .isInstanceOf(validEnumTypeException.class)
-                .hasMessage("존재하지 않는 카테고리입니다.");
-    }
-
-    @DisplayName("전체 메뉴 조회시 없는 상태값 조건시 예외")
-    @Test
-    void selectMenuWhitNotMenuStatus() {
-        // given
-        createMenuInitial();
-
-        // when // then
-        assertThatThrownBy(() -> menuListQuery.listQueryMenu(null, null, "NOT_STATUS"))
-                .isInstanceOf(validEnumTypeException.class)
-                .hasMessage("존재하지 않는 상태 값입니다.");
-    }
-
-    private void createMenuInitial() {
-        MenuEntity menu1 = createMenu("아메리카노", 1000, HANDMADE, SELLING);
-        MenuEntity menu2 = createMenu("카푸치노", 1500, BOTTLE, SELLING);
-        menuRepository.saveAll(List.of(menu1, menu2));
-    }
-
 }
