@@ -16,6 +16,7 @@ import java.util.Optional;
 @Slf4j
 @Builder
 @Entity
+@Table(name = "order_detail_entity")
 public class OrderDetailEntity {
 
     @Id

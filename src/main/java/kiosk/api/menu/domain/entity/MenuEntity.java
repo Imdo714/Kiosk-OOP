@@ -23,6 +23,7 @@ import static kiosk.api.menu.domain.common.MenuStatus.STOP_SELLING;
 @Slf4j
 @ToString
 @Entity
+@Table(name = "menu_entity")
 public class MenuEntity {
 
     @Id

@@ -16,6 +16,7 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
+@Table(name = "discount_entity")
 public class DiscountEntity {
 
     @Id

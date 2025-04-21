@@ -18,6 +18,7 @@ import java.util.List;
 @Setter
 @Slf4j
 @Entity
+@Table(name = "order_entity")
 public class OrderEntity {
 
     @Id
