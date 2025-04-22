@@ -15,7 +15,6 @@ public abstract class AbstractOrderQueryService {
         this.orderDateTimeGenerator = orderDateTimeGenerator;
     }
 
-    // 하위 클래스에서 구현해야 할 부분 (날짜 계산만 집중)
     protected abstract LocalDateTime getStartDateTime(LocalDate date);
     protected abstract LocalDateTime getEndDateTime(LocalDate date);
 

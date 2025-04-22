@@ -1,4 +1,4 @@
-package kiosk.api.stats;
+package kiosk.api.stats.bestMenu.domain.dto.response;
 
 import lombok.*;
 
@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class BestSellingMenuDto {
+public class BestSellingMenuResponse {
 
     Long menuId;
     String menuName;
