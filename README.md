@@ -15,6 +15,7 @@
 - [기능 종류 및 설명](experience/기능설명.md)
 - [다양성_ISP 개선](experience/다향성_ISP.md)
 - [N+1 쿼리 문제 개선](experience/JOIN%20FETCH.md)
+- [Enum활용하여 다향성 개선](experience/Enum활용.md)
 
 ---
 ## 📘 ERD
