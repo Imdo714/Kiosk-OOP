@@ -4,6 +4,8 @@ import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
 import kiosk.api.order.service.AbstractOrderQueryService;
 import kiosk.api.order.service.orderQueryDate.OrderDateTimeGenerator;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;

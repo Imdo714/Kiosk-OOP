@@ -1,6 +1,7 @@
 package kiosk.api.order.domain.internal;
 
 import lombok.*;
+import org.springframework.data.domain.Page;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

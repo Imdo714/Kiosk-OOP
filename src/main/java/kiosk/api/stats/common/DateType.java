@@ -1,4 +1,4 @@
-package kiosk.api.stats.bestMenu.domain.common;
+package kiosk.api.stats.common;
 
 import kiosk.api.stats.bestMenu.domain.dto.request.DateRange;
 

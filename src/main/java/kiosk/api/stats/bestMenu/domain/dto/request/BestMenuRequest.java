@@ -2,7 +2,7 @@ package kiosk.api.stats.bestMenu.domain.dto.request;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.PastOrPresent;
-import kiosk.api.stats.bestMenu.domain.common.DateType;
+import kiosk.api.stats.common.DateType;
 import lombok.*;
 
 import java.time.LocalDate;
