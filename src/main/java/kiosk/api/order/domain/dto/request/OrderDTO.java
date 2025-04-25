@@ -1,4 +1,4 @@
-package kiosk.api.order.domain.internal;
+package kiosk.api.order.domain.dto.request;
 
 import lombok.*;
 import org.springframework.data.domain.Page;

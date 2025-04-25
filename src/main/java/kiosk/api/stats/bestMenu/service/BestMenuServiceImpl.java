@@ -1,7 +1,7 @@
 package kiosk.api.stats.bestMenu.service;
 
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.order.repository.OrderDetailRepository;
-import kiosk.api.stats.bestMenu.domain.dto.request.BestMenuRequest;
 import kiosk.api.stats.bestMenu.domain.dto.response.BestSellingMenuResponse;
 import kiosk.api.stats.bestMenu.domain.dto.request.DateRange;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ public class BestMenuServiceImpl implements BestMenuService {
     private final OrderDetailRepository orderDetailRepository;
 
     @Override
-    public List<BestSellingMenuResponse> dailyBestMenu(BestMenuRequest request) {
+    public List<BestSellingMenuResponse> dailyBestMenu(OrderDateRequest request) {
         DateRange range = request.getDateType().getDateRange(request.getDate());
 
         return orderDetailRepository.DailyBestMenuResult(range.start, range.end);

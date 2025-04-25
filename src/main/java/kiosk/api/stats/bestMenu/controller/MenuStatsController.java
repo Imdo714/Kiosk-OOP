@@ -2,7 +2,7 @@ package kiosk.api.stats.bestMenu.controller;
 
 import jakarta.validation.Valid;
 import kiosk.api.ApiResponse;
-import kiosk.api.stats.bestMenu.domain.dto.request.BestMenuRequest;
+import kiosk.api.order.domain.dto.request.dateTimeRequest.OrderDateRequest;
 import kiosk.api.stats.bestMenu.domain.dto.response.BestSellingMenuResponse;
 import kiosk.api.stats.bestMenu.service.BestMenuService;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class MenuStatsController {
     private final BestMenuService dailyBestMenuService;
 
     @GetMapping("/menu/best")
-    public ApiResponse<List<BestSellingMenuResponse>> dailyBestMenu(@Valid @RequestBody BestMenuRequest request){
+    public ApiResponse<List<BestSellingMenuResponse>> dailyBestMenu(@Valid @RequestBody OrderDateRequest request){
         return ApiResponse.ok(dailyBestMenuService.dailyBestMenu(request));
     }
 

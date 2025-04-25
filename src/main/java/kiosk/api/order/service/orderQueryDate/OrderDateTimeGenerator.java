@@ -1,7 +1,7 @@
 package kiosk.api.order.service.orderQueryDate;
 
 import kiosk.api.order.domain.dto.response.OrderDateTotalResponse;
-import kiosk.api.order.domain.internal.OrderDTO;
+import kiosk.api.order.domain.dto.request.OrderDTO;
 import kiosk.api.order.repository.OrderRepository;
 import kiosk.api.order.service.detaileLogic.OrderSummary;
 import lombok.RequiredArgsConstructor;

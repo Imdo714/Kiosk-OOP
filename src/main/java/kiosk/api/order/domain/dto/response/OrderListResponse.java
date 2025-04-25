@@ -1,6 +1,6 @@
-package kiosk.api.stats.salesReport.domain.response;
+package kiosk.api.order.domain.dto.response;
 
-import kiosk.api.order.domain.internal.OrderDTO;
+import kiosk.api.order.domain.dto.request.OrderDTO;
 import lombok.*;
 import org.springframework.data.domain.Page;
 

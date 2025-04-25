@@ -1,6 +1,7 @@
-package kiosk.api.stats.common;
+package kiosk.api.order.domain.common;
 
 import kiosk.api.stats.bestMenu.domain.dto.request.DateRange;
+import lombok.Getter;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;

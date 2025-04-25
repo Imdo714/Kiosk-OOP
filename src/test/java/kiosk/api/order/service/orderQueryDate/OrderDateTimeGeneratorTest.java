@@ -11,7 +11,6 @@ import kiosk.api.order.domain.dto.response.OrderResponse;
 import kiosk.api.order.repository.OrderDetailRepository;
 import kiosk.api.order.repository.OrderRepository;
 import kiosk.api.order.service.OrderServiceImpl;
-import kiosk.api.order.service.orderQueryDate.daily.DailyOrderQueryService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

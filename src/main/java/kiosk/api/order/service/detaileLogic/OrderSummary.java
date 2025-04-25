@@ -1,6 +1,6 @@
 package kiosk.api.order.service.detaileLogic;
 
-import kiosk.api.order.domain.internal.OrderDTO;
+import kiosk.api.order.domain.dto.request.OrderDTO;
 import lombok.Getter;
 
 import java.util.List;

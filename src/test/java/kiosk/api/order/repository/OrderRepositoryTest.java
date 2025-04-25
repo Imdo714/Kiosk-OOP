@@ -6,7 +6,7 @@ import kiosk.api.menu.domain.entity.MenuEntity;
 import kiosk.api.menu.repository.MenuRepository;
 import kiosk.api.order.domain.dto.request.OrderCreateRequest;
 import kiosk.api.order.domain.dto.request.OrderDetailRequest;
-import kiosk.api.order.domain.internal.OrderDTO;
+import kiosk.api.order.domain.dto.request.OrderDTO;
 import kiosk.api.order.service.OrderServiceImpl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.DisplayName;
